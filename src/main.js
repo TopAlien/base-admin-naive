@@ -8,7 +8,6 @@ import App from './App.vue'
 
 const app = createApp(App)
 
-// TIP 需要时打开！
-// app.use(router)
+app.use(router)
 
 app.mount('#app')
