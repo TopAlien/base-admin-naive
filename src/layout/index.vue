@@ -17,18 +17,33 @@
       label: '1973年的弹珠玩具',
       key: 'pinball-1973',
       icon: renderIcon(BookIcon),
-      disabled: true,
       children: [
         {
           label: '鼠',
           key: 'rat'
+        },
+        {
+          type: 'group',
+          label: '人物',
+          key: 'people',
+          children: [
+            {
+              label: '叙事者',
+              key: 'narrator',
+              icon: renderIcon(PersonIcon)
+            },
+            {
+              label: '羊男',
+              key: 'sheep-man',
+              icon: renderIcon(PersonIcon)
+            }
+          ]
         }
       ]
     },
     {
       label: '寻羊冒险记',
       key: 'a-wild-sheep-chase',
-      disabled: true,
       icon: renderIcon(BookIcon)
     },
     {
@@ -76,7 +91,26 @@
         },
         {
           label: '过去增多，未来减少',
-          key: 'the-past-increases-the-future-recedes'
+          key: 'the-past-increases-the-future-recedes',
+          children: [
+            {
+              type: 'group',
+              label: '人物',
+              key: 'people',
+              children: [
+                {
+                  label: '叙事者',
+                  key: 'narrator',
+                  icon: renderIcon(PersonIcon)
+                },
+                {
+                  label: '羊男',
+                  key: 'sheep-man',
+                  icon: renderIcon(PersonIcon)
+                }
+              ]
+            }
+          ]
         }
       ]
     }
@@ -86,6 +120,7 @@
 <template>
   <n-layout has-sider>
     <n-layout-sider
+      class="h-100vh"
       bordered
       show-trigger
       collapse-mode="width"
