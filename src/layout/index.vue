@@ -100,24 +100,15 @@
       />
     </n-layout-sider>
     <n-layout>
-      <n-layout-header
-        bordered
-        class="layout_header"
-      >
-        header
-      </n-layout-header>
+      <n-layout-header class="layout_header">header</n-layout-header>
       <n-layout-content
-        :native-scrollbar="false"
         class="layout_content"
+        :native-scrollbar="false"
+        content-style="height: 100%; padding: 16px;"
       >
         <router-view />
       </n-layout-content>
-      <n-layout-footer
-        bordered
-        class="layout_footer"
-      >
-        footer
-      </n-layout-footer>
+      <n-layout-footer class="layout_footer">footer</n-layout-footer>
     </n-layout>
   </n-layout>
 </template>
@@ -125,6 +116,8 @@
 <style lang="less" scoped>
   .layout_header {
     height: @header-height;
+    line-height: @header-height;
+    text-align: center;
   }
 
   .layout_content {
@@ -133,5 +126,8 @@
 
   .layout_footer {
     height: @footer-height;
+    line-height: @footer-height;
+    text-align: center;
+    background-color: white;
   }
 </style>
