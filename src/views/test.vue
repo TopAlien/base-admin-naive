@@ -73,5 +73,15 @@
         模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框
       </div>
     </template>
+
+    <template #extraL>
+      <n-button>哇咔咔</n-button>
+      <n-button type="primary">新增</n-button>
+    </template>
+
+    <template #extraR>
+      <n-button>刷新</n-button>
+      <n-button type="primary">导出</n-button>
+    </template>
   </pro-table>
 </template>

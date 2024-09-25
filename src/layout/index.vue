@@ -118,9 +118,10 @@
 </script>
 
 <template>
+  <n-layout-header class="layout_header">header</n-layout-header>
   <n-layout has-sider>
     <n-layout-sider
-      class="h-100vh"
+      class="side_content"
       bordered
       show-trigger
       collapse-mode="width"
@@ -135,15 +136,14 @@
       />
     </n-layout-sider>
     <n-layout>
-      <n-layout-header class="layout_header">header</n-layout-header>
       <n-layout-content
         class="layout_content"
         :native-scrollbar="false"
-        content-style="height: 100%; padding: 16px;"
+        content-style="height: 100%; padding: 16px 16px 0;"
       >
         <router-view />
       </n-layout-content>
-      <n-layout-footer class="layout_footer">footer</n-layout-footer>
+      <n-layout-footer class="layout_footer">Base Admin ©2024 Created by NuoMi</n-layout-footer>
     </n-layout>
   </n-layout>
 </template>
@@ -153,16 +153,22 @@
     height: @header-height;
     line-height: @header-height;
     text-align: center;
+    border-bottom: 1px solid rgb(229, 230, 235);
+  }
+
+  .side_content {
+    height: calc(100vh - @header-height);
   }
 
   .layout_content {
     height: calc(100vh - @header-height - @footer-height);
+    background-color: @main-bg;
   }
 
   .layout_footer {
     height: @footer-height;
     line-height: @footer-height;
     text-align: center;
-    background-color: white;
+    background-color: @main-bg;
   }
 </style>
