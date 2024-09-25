@@ -3,6 +3,10 @@
     title: {
       type: String,
       default: '查询表格'
+    },
+    hasPadding: {
+      type: Boolean,
+      default: false
     }
   })
 </script>
@@ -17,10 +21,11 @@
 <style scoped>
   .card {
     height: 100%;
-    border: 1px solid rgb(229, 230, 235);
-    padding: 16px;
     box-sizing: border-box;
     background-color: white;
+    padding: v-bind('hasPadding ? "16px" : "0"');
+    border: 0 solid rgb(229, 230, 235);
+    border-width: v-bind('hasPadding ? "1px" : "0"');
   }
 
   .card_title {

@@ -1,15 +1,21 @@
+import App from './App.vue'
 import { createApp } from 'vue'
-import router from './router'
-import globalComponent from '@/components/global'
+import { setupCustomComponents } from '@/components'
+import router, { setupRouter } from './router'
 
 import '@/styles/global.less'
 import 'virtual:uno.css'
 
-import App from './App.vue'
+const bootstrap = async () => {
+  const app = createApp(App)
 
-const app = createApp(App)
+  setupCustomComponents(app)
 
-app.use(globalComponent)
-app.use(router)
+  setupRouter(app)
 
-app.mount('#app')
+  await router.isReady()
+
+  app.mount('#app')
+}
+
+void bootstrap()

@@ -1,120 +1,26 @@
 <script setup>
-  import { h } from 'vue'
-  import { NIcon } from 'naive-ui'
-  import { BookOutline as BookIcon, PersonOutline as PersonIcon, WineOutline as WineIcon } from '@vicons/ionicons5'
+  import { ref } from 'vue'
+  import { useRouter } from 'vue-router'
+  import { routes } from '@/router'
+  import { generatorMenu } from '@/utils'
+  import { listenerRouteChange } from '@/utils/router-listener'
 
-  function renderIcon(icon) {
-    return () => h(NIcon, null, { default: () => h(icon) })
+  const router = useRouter()
+
+  const selectedKey = ref('')
+  const menus = ref(generatorMenu(routes[0].children))
+
+  const clickMenuItem = (path) => {
+    if (/http(s)?:/.test(path)) {
+      window.open(path)
+    } else {
+      router.push({ path })
+    }
   }
 
-  const menuOptions = [
-    {
-      label: '且听风吟',
-      key: 'hear-the-wind-sing',
-      icon: renderIcon(BookIcon)
-    },
-    {
-      label: '1973年的弹珠玩具',
-      key: 'pinball-1973',
-      icon: renderIcon(BookIcon),
-      children: [
-        {
-          label: '鼠',
-          key: 'rat'
-        },
-        {
-          type: 'group',
-          label: '人物',
-          key: 'people',
-          children: [
-            {
-              label: '叙事者',
-              key: 'narrator',
-              icon: renderIcon(PersonIcon)
-            },
-            {
-              label: '羊男',
-              key: 'sheep-man',
-              icon: renderIcon(PersonIcon)
-            }
-          ]
-        }
-      ]
-    },
-    {
-      label: '寻羊冒险记',
-      key: 'a-wild-sheep-chase',
-      icon: renderIcon(BookIcon)
-    },
-    {
-      label: '舞，舞，舞',
-      key: 'dance-dance-dance',
-      icon: renderIcon(BookIcon),
-      children: [
-        {
-          type: 'group',
-          label: '人物',
-          key: 'people',
-          children: [
-            {
-              label: '叙事者',
-              key: 'narrator',
-              icon: renderIcon(PersonIcon)
-            },
-            {
-              label: '羊男',
-              key: 'sheep-man',
-              icon: renderIcon(PersonIcon)
-            }
-          ]
-        },
-        {
-          label: '饮品',
-          key: 'beverage',
-          icon: renderIcon(WineIcon),
-          children: [
-            {
-              label: '威士忌',
-              key: 'whisky'
-            }
-          ]
-        },
-        {
-          label: '食物',
-          key: 'food',
-          children: [
-            {
-              label: '三明治',
-              key: 'sandwich'
-            }
-          ]
-        },
-        {
-          label: '过去增多，未来减少',
-          key: 'the-past-increases-the-future-recedes',
-          children: [
-            {
-              type: 'group',
-              label: '人物',
-              key: 'people',
-              children: [
-                {
-                  label: '叙事者',
-                  key: 'narrator',
-                  icon: renderIcon(PersonIcon)
-                },
-                {
-                  label: '羊男',
-                  key: 'sheep-man',
-                  icon: renderIcon(PersonIcon)
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ]
+  listenerRouteChange((to) => {
+    selectedKey.value = to.path
+  })
 </script>
 
 <template>
@@ -130,9 +36,14 @@
       :native-scrollbar="false"
     >
       <n-menu
+        v-model:value="selectedKey"
+        accordion
+        key-field="key"
+        label-field="label"
+        :options="menus"
         :collapsed-width="64"
         :collapsed-icon-size="22"
-        :options="menuOptions"
+        @update:value="clickMenuItem"
       />
     </n-layout-sider>
     <n-layout>
@@ -141,7 +52,9 @@
         :native-scrollbar="false"
         content-style="height: 100%; padding: 16px 16px 0;"
       >
-        <router-view />
+        <div class="router_view">
+          <router-view />
+        </div>
       </n-layout-content>
       <n-layout-footer class="layout_footer">Base Admin ©2024 Created by NuoMi</n-layout-footer>
     </n-layout>
@@ -170,5 +83,13 @@
     line-height: @footer-height;
     text-align: center;
     background-color: @main-bg;
+  }
+
+  .router_view {
+    height: 100%;
+    padding: 16px;
+    border: 1px solid rgb(229, 230, 235);
+    background-color: white;
+    box-sizing: border-box;
   }
 </style>

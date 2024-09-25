@@ -43,10 +43,6 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    border: 1px solid rgb(229, 230, 235);
-    padding: 16px;
-    box-sizing: border-box;
-    background-color: white;
   }
 
   .search_box_title {
