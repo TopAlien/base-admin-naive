@@ -1,4 +1,9 @@
 <script setup>
+  import { computed, useAttrs } from 'vue'
+  import SearchForm from './SearchForm.vue'
+  import { setTableColumn } from './util'
+
+  const attrs = useAttrs()
   const slots = defineSlots()
 
   const props = defineProps({
@@ -7,17 +12,18 @@
       default: '查询表格'
     }
   })
+
+  const tableColumns = computed(() => {
+    return setTableColumn(attrs.columns || [])
+  })
 </script>
 
 <template>
   <div class="pro_box">
     <div class="search_box">
       <div class="search_box_title">{{ title }}</div>
-      <slot name="search" />
-      <n-divider
-        v-if="slots.search || slots.extraL || slots.extraR"
-        class="mb16px! mt16px!"
-      />
+      <SearchForm v-bind="$attrs" />
+      <n-divider class="mb16px! mt0!" />
       <div
         v-if="slots.extraL || slots.extraR"
         class="flex justify-between mb16px"
@@ -32,8 +38,9 @@
     </div>
     <n-data-table
       class="flex-1 h-full"
-      flex-height
       v-bind="$attrs"
+      flex-height
+      :columns="tableColumns"
     />
   </div>
 </template>
@@ -41,6 +48,7 @@
 <style scoped>
   .pro_box {
     height: 100%;
+    min-width: 600px;
     display: flex;
     flex-direction: column;
   }
@@ -49,6 +57,6 @@
     color: rgb(29, 33, 41);
     font-size: 16px;
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 20px;
   }
 </style>

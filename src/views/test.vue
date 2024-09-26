@@ -1,64 +1,68 @@
 <script setup>
-  import { ref, h } from 'vue'
+  import { ref } from 'vue'
 
-  const createCol = () => {
-    return [
-      {
-        type: 'selection',
-        fixed: 'left'
+  const columns = [
+    {
+      title: '状态',
+      key: 'status',
+      valueType: 'select',
+      valueEnum: {
+        1: { text: '状态1', type: 'default' },
+        2: { text: '状态2', type: 'success' },
+        3: { text: '状态3', color: 'red' },
+        4: { text: '状态4', status: 'Default' }
       },
-      {
-        title: 'Name',
-        key: 'name',
-        width: 200,
-        fixed: 'left'
+      editable: true
+    },
+    {
+      title: '名称',
+      key: 'name',
+      hideInSearch: true,
+      copyable: true
+    },
+    {
+      title: '状态',
+      key: 'status2',
+      valueEnum: {
+        1: { text: '状态1', status: 'Default' },
+        2: { text: '状态2', status: 'Success' },
+        3: { text: '状态3', status: 'Default' },
+        4: { text: '状态4', status: 'Default' }
       },
-      {
-        title: 'Age',
-        key: 'age',
-        width: 100,
-        fixed: 'left'
-      },
-      {
-        title: 'Row',
-        key: 'row',
-        render(row, index) {
-          return h('span', ['row ', index])
-        }
-      },
-      {
-        title: 'Row1',
-        key: 'row1',
-        render(row, index) {
-          return h('span', ['row ', index])
-        }
-      },
-      {
-        title: 'Row2',
-        key: 'row2',
-        render(row, index) {
-          return h('span', ['row ', index])
-        },
-        width: 100,
-        fixed: 'right'
-      },
-      {
-        title: 'Address',
-        key: 'address',
-        width: 200,
-        fixed: 'right'
-      }
-    ]
-  }
+      hideInTable: true
+    },
+    {
+      title: '时间',
+      key: 'time3',
+      valueType: 'date',
+      valueFormat: 'YYYY-MM-DD HH:mm',
+      copyable: true
+    },
+    {
+      title: '时间二',
+      key: 'time',
+      valueType: 'date',
+      copyable: true
+    },
+    {
+      title: '时间区间',
+      key: ['time', 'time2'],
+      searchKey: 'timeArr',
+      valueType: 'daterange',
+      copyable: true
+    }
+  ]
 
-  const columns = ref(createCol())
   const pagination = ref({ pageSize: 20 })
   const data = ref(
     Array.from({ length: 46 }).map((_, index) => ({
       key: index,
       name: `Edward King ${index}`,
-      age: 32,
-      address: `London, Park Lane no. ${index}`
+      status: `${index}`,
+      status2: `${index}`,
+      time: Date.now(),
+      time3: Date.now(),
+      time2: Date.now()
     }))
   )
 </script>
@@ -68,12 +72,6 @@
     :data="data"
     :pagination="pagination"
   >
-    <template #search>
-      <div>
-        模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框模拟搜索框
-      </div>
-    </template>
-
     <template #extraL>
       <n-button>哇咔咔</n-button>
       <n-button type="primary">新增</n-button>

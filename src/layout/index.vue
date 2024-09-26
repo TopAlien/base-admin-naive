@@ -91,5 +91,6 @@
     border: 1px solid rgb(229, 230, 235);
     background-color: white;
     box-sizing: border-box;
+    overflow-x: auto;
   }
 </style>

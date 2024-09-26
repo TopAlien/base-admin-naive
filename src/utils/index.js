@@ -1,5 +1,6 @@
 import { h } from 'vue'
-import { NIcon } from 'naive-ui'
+import dayjs from 'dayjs'
+import { NIcon, NTag } from 'naive-ui'
 import { BookOutline } from '@vicons/ionicons5'
 
 /**
@@ -35,8 +36,35 @@ export const setTableColumn = (simpleArr = []) => {
   })
 }
 
-const renderIcon = (icon) => {
+export const renderIcon = (icon) => {
   return () => h(NIcon, null, { default: () => h(icon || BookOutline) })
+}
+
+export const renderSpan = (val) => {
+  return h('span', null, val || '-')
+}
+
+export const renderTag = (obj = {}) => {
+  // NTag color 为对象
+  if (obj?.type) {
+    return h(NTag, { type: obj?.type || 'default', color: obj?.color }, { default: () => obj?.text || '-' })
+  }
+
+  return renderSpan(obj?.text)
+}
+
+export const renderDate = (time, format) => {
+  return h('span', null, dayjs(time).format(format || 'YYYY-MM-DD HH:mm:ss'))
+}
+
+export const renderDateRange = (timeArr, format) => {
+  return h(
+    'span',
+    null,
+    dayjs(timeArr[0]).format(format || 'YYYY-MM-DD HH:mm:ss') +
+      ' - ' +
+      dayjs(timeArr[1]).format(format || 'YYYY-MM-DD HH:mm:ss')
+  )
 }
 
 export function isRootRouter(item) {
