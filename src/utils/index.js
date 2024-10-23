@@ -1,7 +1,5 @@
 import { h } from 'vue'
-import dayjs from 'dayjs'
-import { NIcon, NTag } from 'naive-ui'
-import { BookOutline } from '@vicons/ionicons5'
+import { NTag } from 'naive-ui'
 
 /**
  *  const columns = setTableColumn([
@@ -36,12 +34,24 @@ export const setTableColumn = (simpleArr = []) => {
   })
 }
 
-export const renderIcon = (icon) => {
-  return () => h(NIcon, null, { default: () => h(icon || BookOutline) })
+export const isDateInput = (valueType) => {
+  return [
+    'date',
+    'datetime',
+    'daterange',
+    'datetimerange',
+    'month',
+    'monthrange',
+    'year',
+    'yearrange',
+    'quarter',
+    'quarterrange',
+    'week'
+  ].includes(valueType)
 }
 
-export const renderSpan = (val) => {
-  return h('span', null, val || '-')
+export const isEmpty = (value) => {
+  return (value ?? '') === ''
 }
 
 export const renderTag = (obj = {}) => {
@@ -50,48 +60,5 @@ export const renderTag = (obj = {}) => {
     return h(NTag, { type: obj?.type || 'default', color: obj?.color }, { default: () => obj?.text || '-' })
   }
 
-  return renderSpan(obj?.text)
-}
-
-export const renderDate = (time, format) => {
-  return h('span', null, dayjs(time).format(format || 'YYYY-MM-DD HH:mm:ss'))
-}
-
-export const renderDateRange = (timeArr, format) => {
-  return h(
-    'span',
-    null,
-    dayjs(timeArr[0]).format(format || 'YYYY-MM-DD HH:mm:ss') +
-      ' - ' +
-      dayjs(timeArr[1]).format(format || 'YYYY-MM-DD HH:mm:ss')
-  )
-}
-
-export function isRootRouter(item) {
-  return item.meta?.alwaysShow != true && item?.children?.filter((item) => !Boolean(item?.meta?.hidden))?.length === 1
-}
-
-export function filterRouter(routes) {
-  return routes.filter((item) => {
-    return (item.meta?.hidden || false) != true && !['/:path(.*)*', '/redirect', '/login'].includes(item.path)
-  })
-}
-
-export function generatorMenu(routes) {
-  return filterRouter(routes).map((item) => {
-    const isRoot = isRootRouter(item)
-    const info = isRoot ? item.children[0] : item
-    const currentMenu = {
-      ...info,
-      ...info.meta,
-      label: info.meta?.title,
-      key: info.path,
-      icon: renderIcon() // isRoot ? item.meta?.icon : info.meta?.icon
-    }
-
-    if (info.children && info.children.length > 0) {
-      currentMenu.children = generatorMenu(info.children)
-    }
-    return currentMenu
-  })
+  return isEmpty(obj?.text) ? '-' : obj?.text
 }

@@ -2,7 +2,7 @@
   import { ref } from 'vue'
   import { useRouter } from 'vue-router'
   import { routes } from '@/router'
-  import { generatorMenu } from '@/utils'
+  import { generatorMenu } from '@/utils/router-gen'
   import { listenerRouteChange } from '@/utils/router-listener'
 
   const router = useRouter()

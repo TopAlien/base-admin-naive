@@ -1,8 +1,9 @@
 <script setup>
   import { ref, computed, useAttrs } from 'vue'
   import { SearchOutline, RefreshOutline } from '@vicons/ionicons5'
-  import { renderIcon } from '@/utils/index'
-  import { setSearchColumn, isDateInput, isEmpty } from './util'
+  import { isDateInput, isEmpty } from '@/utils/index'
+  import { renderIcon } from '@/utils/render'
+  import { setSearchColumn } from './util'
 
   let initFormData = {}
 
@@ -56,7 +57,7 @@
           class="min-w240px!"
           v-model:value="searchForm[item.searchKey || item.key]"
           :placeholder="'请输入' + item.title"
-          :clearable="!isEmpty(item.initialValue)"
+          :clearable="isEmpty(item.initialValue)"
           v-bind="item.fieldProps"
         />
 
@@ -66,7 +67,7 @@
           v-model:value="searchForm[item.searchKey || item.key]"
           :options="item.options"
           :placeholder="'请选择' + item.title"
-          :clearable="!isEmpty(item.initialValue)"
+          :clearable="isEmpty(item.initialValue)"
           v-bind="item.fieldProps"
         />
 
@@ -75,7 +76,7 @@
           class="min-w240px!"
           v-model:value="searchForm[item.searchKey || item.key]"
           :type="item.valueType"
-          :clearable="!isEmpty(item.initialValue)"
+          :clearable="isEmpty(item.initialValue)"
           v-bind="item.fieldProps"
         />
       </n-form-item>

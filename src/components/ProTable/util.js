@@ -1,23 +1,9 @@
-import { renderDate, renderDateRange, renderTag } from '@/utils'
+import dayjs from 'dayjs'
+import { renderTag } from '@/utils'
+import { isEmpty } from 'lodash-es'
 
-export const isDateInput = (valueType) => {
-  return [
-    'date',
-    'datetime',
-    'daterange',
-    'datetimerange',
-    'month',
-    'monthrange',
-    'year',
-    'yearrange',
-    'quarter',
-    'quarterrange',
-    'week'
-  ].includes(valueType)
-}
-
-export const isEmpty = (value) => {
-  return (value ?? '') !== ''
+const timeFormat = (time, format) => {
+  return dayjs(time).format(format || 'YYYY-MM-DD HH:mm:ss')
 }
 
 export const setTableColumn = (columns) => {
@@ -25,17 +11,26 @@ export const setTableColumn = (columns) => {
   columns.forEach((column) => {
     if (!column.hideInTable) {
       if (!column.render && column.valueType === 'date') {
-        column.render = (row) => renderDate(row[column.key], column.valueFormat)
+        column.render = (row) => timeFormat(row[column.key], column.valueFormat)
       }
 
       // 时间选择器
       if (!column.render && column.valueType?.indexOf('range') !== -1) {
-        column.render = (row) => renderDateRange([row[column.key[0]], row[column.key[1]]], column.valueFormat)
+        column.render = (row) =>
+          timeFormat(row[column.key[0]], column.valueFormat) +
+          ' - ' +
+          timeFormat(row[column.key[1]], column.valueFormat)
       }
 
       if (!column.render && column.valueType === 'select' && column.valueEnum) {
         column.render = (row) => renderTag(column.valueEnum[row[column.key]])
       }
+
+      if(!column.render) {
+        column.render = (row) => isEmpty(row[column.key]) ? '-' : row[column.key]
+      }
+
+      column.align = 'center'
 
       result.push(column)
     }
