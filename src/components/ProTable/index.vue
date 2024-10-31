@@ -109,6 +109,7 @@
       class="flex-1 h-full"
       v-bind="$attrs"
       flex-height
+      striped
       :columns="tableColumns"
       :loading="tableReactive.loading"
       :data="tableReactive.data"
