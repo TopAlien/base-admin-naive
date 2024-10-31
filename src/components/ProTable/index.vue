@@ -50,7 +50,7 @@
   })
 
   const searchFormRef = ref()
-  const getQueryParams = () => {
+  const getParams = () => {
     return {
       ...searchFormRef.value?.getQueryParams(),
       page: tableReactive.pagination.page,
@@ -65,7 +65,7 @@
 
     tableReactive.loading = true
     try {
-      const { data, total } = await props.request(getQueryParams())
+      const { data, total } = await props.request(getParams())
 
       tableReactive.data = data
       tableReactive.total = total
@@ -80,7 +80,7 @@
     loadData()
   }
 
-  defineExpose({ getQueryParams, reload: loadData })
+  defineExpose({ getParams, reload: loadData })
 </script>
 
 <template>

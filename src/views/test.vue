@@ -72,6 +72,8 @@
       total: res.length
     }
   }
+
+  const reload = () => {}
 </script>
 <template>
   <pro-table
@@ -84,7 +86,7 @@
     </template>
 
     <template #extraR>
-      <n-button>刷新</n-button>
+      <n-button @click="reload">刷新</n-button>
       <n-button type="primary">导出</n-button>
     </template>
   </pro-table>
