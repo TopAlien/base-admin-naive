@@ -1,6 +1,4 @@
 <script setup>
-  import { ref } from 'vue'
-
   const columns = [
     {
       title: '状态',
@@ -53,24 +51,32 @@
     }
   ]
 
-  const pagination = ref({ pageSize: 20 })
-  const data = ref(
-    Array.from({ length: 46 }).map((_, index) => ({
-      key: index,
-      name: `Edward King ${index}`,
-      status: `${index}`,
-      status2: `${index}`,
-      time: Date.now(),
-      time3: Date.now(),
-      time2: Date.now()
-    }))
-  )
+  const request = async (query) => {
+    const res = await new Promise((resolve) =>
+      setTimeout(() => {
+        resolve(
+          Array.from({ length: 46 }).map((_, index) => ({
+            key: index,
+            name: `Edward King ${index}`,
+            status: `${index}`,
+            status2: `${index}`,
+            time: Date.now(),
+            time3: Date.now(),
+            time2: Date.now()
+          }))
+        )
+      }, 1000)
+    )
+    return {
+      data: res,
+      total: res.length
+    }
+  }
 </script>
 <template>
   <pro-table
     :columns="columns"
-    :data="data"
-    :pagination="pagination"
+    :request="request"
   >
     <template #extraL>
       <n-button>哇咔咔</n-button>

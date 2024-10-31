@@ -1,7 +1,7 @@
 <script setup>
-  import { computed, useAttrs } from 'vue'
+  import { h, ref, reactive, computed, useAttrs } from 'vue'
   import SearchForm from './SearchForm.vue'
-  import { setTableColumn } from './util'
+  import { setTableColumn, setSearchColumn } from './util'
 
   const attrs = useAttrs()
   const slots = defineSlots()
@@ -10,19 +10,88 @@
     title: {
       type: String,
       default: '查询表格'
+    },
+    request: {
+      type: Function,
+      default: () => ({ data: [], total: 0 })
     }
   })
 
   const tableColumns = computed(() => {
     return setTableColumn(attrs.columns || [])
   })
+
+  const searchColumns = computed(() => {
+    return setSearchColumn(attrs.columns || [])
+  })
+
+  const tableReactive = reactive({
+    loading: false,
+    data: [],
+    total: 0,
+    pagination: {
+      page: 1,
+      pageSize: 20,
+      showSizePicker: true,
+      pageSizes: [10, 20, 30, 50],
+      prefix: () => {
+        return tableReactive.total ? h('span', `共 ${tableReactive.total} 条`) : ''
+      },
+      onChange: (page) => {
+        tableReactive.pagination.page = page
+        loadData()
+      },
+      onUpdatePageSize: (pageSize) => {
+        tableReactive.pagination.pageSize = pageSize
+        tableReactive.pagination.page = 1
+        loadData()
+      }
+    }
+  })
+
+  const searchFormRef = ref()
+  const getQueryParams = () => {
+    return {
+      ...searchFormRef.value?.getQueryParams(),
+      page: tableReactive.pagination.page,
+      pageSize: tableReactive.pagination.pageSize
+    }
+  }
+
+  const loadData = async () => {
+    if (typeof props.request !== 'function') {
+      throw new Error('request must be a function')
+    }
+
+    tableReactive.loading = true
+    try {
+      const { data, total } = await props.request(getQueryParams())
+
+      tableReactive.data = data
+      tableReactive.total = total
+    } finally {
+      tableReactive.loading = false
+    }
+  }
+  loadData()
+
+  const handleSearch = () => {
+    tableReactive.pagination.page = 1
+    loadData()
+  }
+
+  defineExpose({ getQueryParams, reload: loadData })
 </script>
 
 <template>
   <div class="pro_box">
     <div class="search_box">
       <div class="search_box_title">{{ title }}</div>
-      <SearchForm v-bind="$attrs" />
+      <SearchForm
+        ref="searchFormRef"
+        :searchColumns="searchColumns"
+        @search="handleSearch"
+      />
       <n-divider class="mb16px! mt0!" />
       <div
         v-if="slots.extraL || slots.extraR"
@@ -41,6 +110,9 @@
       v-bind="$attrs"
       flex-height
       :columns="tableColumns"
+      :loading="tableReactive.loading"
+      :data="tableReactive.data"
+      :pagination="tableReactive.pagination"
     />
   </div>
 </template>

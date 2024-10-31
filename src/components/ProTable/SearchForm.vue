@@ -1,37 +1,44 @@
 <script setup>
-  import { ref, computed, useAttrs } from 'vue'
+  import { ref } from 'vue'
   import { SearchOutline, RefreshOutline } from '@vicons/ionicons5'
   import { isDateInput, isEmpty } from '@/utils/index'
   import { renderIcon } from '@/utils/render'
-  import { setSearchColumn } from './util'
+  import { cloneDeep } from 'lodash-es'
 
   let initFormData = {}
 
-  const attrs = useAttrs()
   const emit = defineEmits(['search'])
-
-  const searchColumns = computed(() => {
-    return setSearchColumn(attrs.columns || [])
+  const props = defineProps({
+    searchColumns: {
+      type: Array,
+      default: () => []
+    }
   })
 
   const searchForm = ref({})
   const initSearchForm = () => {
-    searchColumns.value.forEach((it) => {
+    props.searchColumns.forEach((it) => {
       searchForm.value[it.searchKey || it.key] = it.initialValue || null
     })
 
-    initFormData = JSON.parse(JSON.stringify(searchForm.value))
+    initFormData = cloneDeep(searchForm.value)
   }
   initSearchForm()
 
   const search = () => {
-    console.log(searchForm.value)
     emit('search', searchForm.value)
   }
 
   const reset = () => {
-    searchForm.value = JSON.parse(JSON.stringify(initFormData))
+    searchForm.value = cloneDeep(initFormData)
+    search()
   }
+
+  const getQueryParams = () => {
+    return searchForm.value
+  }
+
+  defineExpose({ getQueryParams })
 </script>
 
 <template>
