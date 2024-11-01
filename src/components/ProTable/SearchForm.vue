@@ -5,7 +5,7 @@
   import { renderIcon } from '@/utils/render'
   import { cloneDeep } from 'lodash-es'
 
-  let initFormData = {}
+  let _INIT_FORM_DATA = {}
 
   const emit = defineEmits(['search'])
   const props = defineProps({
@@ -17,11 +17,13 @@
 
   const searchForm = ref({})
   const initSearchForm = () => {
+    const tempForm = {}
     props.searchColumns.forEach((it) => {
-      searchForm.value[it.searchKey || it.key] = it.initialValue || null
+      tempForm[it.searchKey || it.key] = it.initialValue || null
     })
 
-    initFormData = cloneDeep(searchForm.value)
+    searchForm.value = tempForm
+    _INIT_FORM_DATA = cloneDeep(searchForm.value)
   }
   initSearchForm()
 
@@ -30,7 +32,7 @@
   }
 
   const reset = () => {
-    searchForm.value = cloneDeep(initFormData)
+    searchForm.value = cloneDeep(_INIT_FORM_DATA)
     search()
   }
 

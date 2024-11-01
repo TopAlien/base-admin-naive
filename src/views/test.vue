@@ -19,7 +19,7 @@
       copyable: true
     },
     {
-      title: '状态',
+      title: '状态2',
       key: 'status2',
       valueEnum: {
         1: { text: '状态1', status: 'Default' },
