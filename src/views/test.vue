@@ -1,4 +1,6 @@
 <script setup>
+  import { renderPopconfirm } from '@/utils/render'
+
   const columns = [
     {
       title: '状态',
@@ -48,6 +50,16 @@
       searchKey: 'timeArr',
       valueType: 'daterange',
       copyable: true
+    },
+    {
+      title: '操作',
+      render: () => {
+        return renderPopconfirm({
+          positiveClick: () => {
+            console.log('asdasd')
+          }
+        })
+      }
     }
   ]
 
