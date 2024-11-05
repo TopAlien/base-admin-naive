@@ -8,17 +8,21 @@ import '@/styles/global.less'
 import 'virtual:uno.css'
 
 const di = () => {
-  const { message, notification, dialog, loadingBar, modal } = createDiscreteApi([
-    'message',
-    'dialog',
-    'notification',
-    'modal'
-  ])
+  const { message, notification, dialog, loadingBar, modal } = createDiscreteApi(
+    ['message', 'dialog', 'notification', 'modal'],
+    {
+      messageProviderProps: {
+        max: 3
+      },
+      notificationProviderProps: {
+        max: 3
+      }
+    }
+  )
 
   window.$message = message
   window.$notification = notification
   window.$dialog = dialog
-  window.$loadingBar = loadingBar
   window.$modal = modal
 }
 
