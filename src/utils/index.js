@@ -1,37 +1,16 @@
-import { h } from 'vue'
-import { NTag } from 'naive-ui'
+import dayjs from 'dayjs'
 
-/**
- *  const columns = setTableColumn([
- *     { no: '集合编号' },
- *     { name: '集合名称' },
- *     { type: '内容体裁' },
- *     { fs: '筛选方式' },
- *     { action: { title: '操作', width: '130px', ... } }
- *   ])
- * @param simpleArr
- */
-export const setTableColumn = (simpleArr = []) => {
-  if (!simpleArr || !Array.isArray(simpleArr) || !simpleArr?.length) {
-    return []
-  }
+export const isEmpty = (value) => {
+  return (value ?? '') === ''
+}
 
-  return simpleArr.map((it) => {
-    const key = Object.keys(it)[0]
-    const val = it[key]
-
-    return typeof val === 'string'
-      ? {
-          title: val,
-          dataIndex: key,
-          key
-        }
-      : {
-          dataIndex: key,
-          key,
-          ...val
-        }
-  })
+export const omitEmpty = (obj) => {
+  return Object.keys(obj).reduce((acc, key) => {
+    if (!isEmpty(obj[key])) {
+      acc[key] = obj[key]
+    }
+    return acc
+  }, {})
 }
 
 export const isDateInput = (valueType) => {
@@ -50,15 +29,36 @@ export const isDateInput = (valueType) => {
   ].includes(valueType)
 }
 
-export const isEmpty = (value) => {
-  return (value ?? '') === ''
+export const toNum = (val) => {
+  return isNaN(+val) ? val : +val
 }
 
-export const renderTag = (obj = {}) => {
-  // NTag color 为对象
-  if (obj?.type) {
-    return h(NTag, { type: obj?.type || 'default', color: obj?.color }, { default: () => obj?.text || '-' })
-  }
+export const toValueEnum = (map) => {
+  const obj = {}
+  Object.keys(map).forEach((key) => {
+    obj[key] = { text: map[key], value: toNum(key) }
+  })
+  return obj
+}
 
-  return isEmpty(obj?.text) ? '-' : obj?.text
+export const enumToOption = (valueEnum) => {
+  return Object.keys(valueEnum).map((key) => {
+    /**
+     * 兼容
+     * { 1: { text: '是', status: 'Success' } }
+     * { 1: '是'   }
+     */
+    return {
+      label: valueEnum[key]?.text || valueEnum[key] || '无text',
+      value: toNum(key)
+    }
+  })
+}
+
+export const formatTime = (time, format = 'YYYY-MM-DD HH:mm:ss') => {
+  return time ? dayjs(time).format(format) : null
+}
+
+export const formatTimeArr = (timeArr, format = 'YYYY-MM-DD') => {
+  return timeArr ? [formatTime(timeArr[0], format), formatTime(timeArr[1], format)] : []
 }

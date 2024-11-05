@@ -11,14 +11,12 @@
         2: { text: '状态2', type: 'success' },
         3: { text: '状态3', color: 'red' },
         4: { text: '状态4', status: 'Default' }
-      },
-      editable: true
+      }
     },
     {
       title: '名称',
       key: 'name',
-      hideInSearch: true,
-      copyable: true
+      hideInSearch: true
     },
     {
       title: '状态2',
@@ -35,21 +33,18 @@
       title: '时间',
       key: 'time3',
       valueType: 'date',
-      valueFormat: 'YYYY-MM-DD HH:mm',
-      copyable: true
+      valueFormat: 'YYYY-MM-DD HH:mm'
     },
     {
       title: '时间二',
       key: 'time',
-      valueType: 'date',
-      copyable: true
+      valueType: 'date'
     },
     {
       title: '时间区间',
       key: ['time', 'time2'],
       searchKey: 'timeArr',
-      valueType: 'daterange',
-      copyable: true
+      valueType: 'daterange'
     },
     {
       title: '操作',
@@ -68,6 +63,7 @@
       setTimeout(() => {
         resolve(
           Array.from({ length: 46 }).map((_, index) => ({
+            id: index,
             key: index,
             name: `Edward King ${index}`,
             status: `${index}`,
@@ -80,7 +76,7 @@
       }, 1000)
     )
     return {
-      data: res,
+      list: res,
       total: res.length
     }
   }

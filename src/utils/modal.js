@@ -37,10 +37,14 @@ export const waitConfirmModal = ({ title = '警告', content = '你确定？', t
  * @param config modal其他配置
  * @returns {Promise<unknown>}
  */
-export const invokeModal = (
-  { render, ...props },
-  { title = '添加', preset = 'card', style = { width: '500px' }, ...config } = {}
-) => {
+export const invokeModal = ({
+  render,
+  title = '添加',
+  preset = 'card',
+  style = { width: '500px' },
+  config,
+  ...props
+} = {}) => {
   return new Promise((resolve, reject) => {
     const modal = $modal.create({
       title,

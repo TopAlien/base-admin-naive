@@ -1,19 +1,24 @@
 <script setup>
-  import { h, ref, reactive, computed, useAttrs } from 'vue'
+  import { ref, reactive, computed, useAttrs, h } from 'vue'
   import SearchForm from './SearchForm.vue'
   import { setTableColumn, setSearchColumn } from './util'
 
   const attrs = useAttrs()
   const slots = defineSlots()
+  const emit = defineEmits(['search'])
 
   const props = defineProps({
     title: {
       type: String,
       default: '查询表格'
     },
+    inlineBtn: {
+      type: Boolean,
+      default: false
+    },
     request: {
       type: Function,
-      default: () => ({ data: [], total: 0 })
+      default: () => ({ list: [], total: 0 })
     }
   })
 
@@ -25,9 +30,9 @@
     return setSearchColumn(attrs.columns || [])
   })
 
-  const tableReactive = reactive({
+  const tableMuster = reactive({
     loading: false,
-    data: [],
+    list: [],
     total: 0,
     pagination: {
       page: 1,
@@ -35,15 +40,15 @@
       showSizePicker: true,
       pageSizes: [10, 20, 30, 50],
       prefix: () => {
-        return tableReactive.total ? h('span', `共 ${tableReactive.total} 条`) : ''
+        return tableMuster.total ? h('span', `共 ${tableMuster.total} 条`) : ''
       },
       onChange: (page) => {
-        tableReactive.pagination.page = page
+        tableMuster.pagination.page = page
         loadData()
       },
       onUpdatePageSize: (pageSize) => {
-        tableReactive.pagination.pageSize = pageSize
-        tableReactive.pagination.page = 1
+        tableMuster.pagination.pageSize = pageSize
+        tableMuster.pagination.page = 1
         loadData()
       }
     }
@@ -52,9 +57,9 @@
   const searchFormRef = ref()
   const getParams = () => {
     return {
-      ...searchFormRef.value?.getQueryParams(),
-      page: tableReactive.pagination.page,
-      pageSize: tableReactive.pagination.pageSize
+      ...searchFormRef.value?.getFieldsValue(),
+      currPage: tableMuster.pagination.page,
+      pageSize: tableMuster.pagination.pageSize
     }
   }
 
@@ -63,20 +68,20 @@
       throw new Error('request must be a function')
     }
 
-    tableReactive.loading = true
+    tableMuster.loading = true
     try {
-      const { data, total } = await props.request(getParams())
+      const { list, total } = await props.request(getParams())
 
-      tableReactive.data = data
-      tableReactive.total = total
+      tableMuster.list = list
+      tableMuster.total = total
     } finally {
-      tableReactive.loading = false
+      tableMuster.loading = false
     }
   }
   loadData()
 
-  const handleSearch = () => {
-    tableReactive.pagination.page = 1
+  const search = () => {
+    tableMuster.pagination.page = 1
     loadData()
   }
 
@@ -85,14 +90,21 @@
 
 <template>
   <div class="pro_box">
-    <div class="search_box">
+    <div
+      class="search_box"
+      v-if="searchColumns.length || slots.extraL || slots.extraR"
+    >
       <div class="search_box_title">{{ title }}</div>
       <SearchForm
+        :inline-btn="inlineBtn"
         ref="searchFormRef"
         :searchColumns="searchColumns"
-        @search="handleSearch"
+        @search="search"
       />
-      <n-divider class="mb16px! mt0!" />
+      <n-divider
+        class="mb16px! mt0!"
+        v-if="searchColumns.length && (slots.extraL || slots.extraR)"
+      />
       <div
         v-if="slots.extraL || slots.extraR"
         class="flex justify-between mb16px"
@@ -107,13 +119,15 @@
     </div>
     <n-data-table
       class="flex-1 h-full"
-      v-bind="$attrs"
+      :row-key="(row) => row.id"
       flex-height
       striped
+      remote
       :columns="tableColumns"
-      :loading="tableReactive.loading"
-      :data="tableReactive.data"
-      :pagination="tableReactive.pagination"
+      :loading="tableMuster.loading"
+      :data="tableMuster.list"
+      :pagination="{ ...tableMuster.pagination, itemCount: tableMuster.total }"
+      v-bind="$attrs"
     />
   </div>
 </template>

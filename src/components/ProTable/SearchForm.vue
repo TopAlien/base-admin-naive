@@ -1,46 +1,57 @@
 <script setup>
-  import { ref } from 'vue'
-  import { SearchOutline, RefreshOutline } from '@vicons/ionicons5'
-  import { isDateInput, isEmpty } from '@/utils/index'
+  import { computed, nextTick, ref } from 'vue'
   import { renderIcon } from '@/utils/render'
+  import { isEmpty, isDateInput, omitEmpty } from '@/utils'
   import { cloneDeep } from 'lodash-es'
 
-  let _INIT_FORM_DATA = {}
+  let _initFormData = {}
 
-  const emit = defineEmits(['search'])
   const props = defineProps({
+    inlineBtn: {
+      type: Boolean,
+      default: false
+    },
     searchColumns: {
       type: Array,
       default: () => []
     }
   })
 
+  const emit = defineEmits(['search'])
+
+  const inlineStyle = computed(() => {
+    return props.inlineBtn || props.searchColumns.length < 3
+  })
+
   const searchForm = ref({})
   const initSearchForm = () => {
-    const tempForm = {}
+    let temp = {}
     props.searchColumns.forEach((it) => {
-      tempForm[it.searchKey || it.key] = it.initialValue || null
+      temp[it.searchKey || it.key] = it.initialValue || null
     })
 
-    searchForm.value = tempForm
-    _INIT_FORM_DATA = cloneDeep(searchForm.value)
+    searchForm.value = cloneDeep(temp)
+    temp = null
+    _initFormData = cloneDeep(searchForm.value)
   }
   initSearchForm()
 
   const search = () => {
-    emit('search', searchForm.value)
+    nextTick(() => {
+      emit('search', searchForm.value)
+    })
   }
 
   const reset = () => {
-    searchForm.value = cloneDeep(_INIT_FORM_DATA)
+    searchForm.value = cloneDeep(_initFormData)
     search()
   }
 
-  const getQueryParams = () => {
-    return searchForm.value
+  const getFieldsValue = () => {
+    return omitEmpty(searchForm.value)
   }
 
-  defineExpose({ getQueryParams })
+  defineExpose({ getFieldsValue })
 </script>
 
 <template>
@@ -55,6 +66,7 @@
       label-width="auto"
       label-placement="left"
       :model="searchForm"
+      @keydown.enter="search"
     >
       <n-form-item
         v-for="item in searchColumns"
@@ -62,46 +74,51 @@
         :label="item.title + ':'"
       >
         <n-input
-          v-if="!item.valueType || item.valueType === 'text'"
+          v-if="(!item.valueType || item.valueType === 'text') && !item.chooseSelect"
           class="min-w240px!"
           v-model:value="searchForm[item.searchKey || item.key]"
           :placeholder="'请输入' + item.title"
           :clearable="isEmpty(item.initialValue)"
+          maxlength="50"
           v-bind="item.fieldProps"
         />
 
         <n-select
-          v-if="item.valueType === 'select'"
+          v-if="!item.chooseSelect && item.valueType === 'select'"
           class="min-w240px!"
           v-model:value="searchForm[item.searchKey || item.key]"
           :options="item.options"
           :placeholder="'请选择' + item.title"
           :clearable="isEmpty(item.initialValue)"
+          filterable
           v-bind="item.fieldProps"
+          @update-value="search"
         />
 
         <n-date-picker
-          v-if="isDateInput(item.valueType)"
+          v-if="isDateInput(item.pickerSearchType || item.valueType)"
           class="min-w240px!"
           v-model:value="searchForm[item.searchKey || item.key]"
-          :type="item.valueType"
+          :type="item.pickerSearchType || item.valueType"
           :clearable="isEmpty(item.initialValue)"
           v-bind="item.fieldProps"
+          @update-value="search"
         />
       </n-form-item>
     </n-form>
-    <div class="operate_box">
+    <div :class="!inlineStyle ? 'operate_box' : ''">
       <n-button
         type="primary"
         class="mb24px"
-        :render-icon="renderIcon(SearchOutline)"
+        :render-icon="renderIcon('SearchOutline')"
         @click="search"
       >
         查询
       </n-button>
       <n-button
-        :render-icon="renderIcon(RefreshOutline)"
+        :render-icon="renderIcon('RefreshOutline')"
         @click="reset"
+        :class="inlineStyle ? 'ml14px' : ''"
       >
         重置
       </n-button>
