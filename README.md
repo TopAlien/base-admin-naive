@@ -7,3 +7,9 @@
 #### table 可滚动区域自适应
 
 ![table 可滚动区域自适应](/src/assets/image2.png)
+
+1、renderTag
+2、modal.js
+3、pro-upload
+4、createDiscreteApi 最大渲染个数
+
