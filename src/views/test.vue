@@ -4,6 +4,9 @@
 
   const columns = [
     {
+      type: 'selection'
+    },
+    {
       title: '状态',
       key: 'status',
       valueType: 'select',
@@ -87,11 +90,16 @@
   const exportZ = () => {
     exportZip()
   }
+
+  const checkRow = (rowKeys, rows) => {
+    console.log('=>(test.vue:92) rowKeys, rows', rowKeys, rows)
+  }
 </script>
 <template>
   <pro-table
     :columns="columns"
     :request="request"
+    @update:checked-row-keys="checkRow"
   >
     <template #extraL>
       <n-button>哇咔咔</n-button>
