@@ -1,5 +1,6 @@
 <script setup>
   import { renderPopconfirm } from '@/utils/render'
+  import { exportZip } from '@/utils/index.js'
 
   const columns = [
     {
@@ -82,6 +83,10 @@
   }
 
   const reload = () => {}
+
+  const exportZ = () => {
+    exportZip()
+  }
 </script>
 <template>
   <pro-table
@@ -95,7 +100,12 @@
 
     <template #extraR>
       <n-button @click="reload">刷新</n-button>
-      <n-button type="primary">导出</n-button>
+      <n-button
+        type="primary"
+        @click="exportZ"
+      >
+        导出
+      </n-button>
     </template>
   </pro-table>
 </template>

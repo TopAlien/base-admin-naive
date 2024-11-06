@@ -11,6 +11,7 @@ export const fillFileList = (fileList) => {
   } else {
     return fileList.map((it) => ({
       url: it.url,
+      thumbnailUrl: it.thumbnailUrl,
       id: it.id || uniqueId('upload_'),
       status: 'finished',
       percentage: 100
