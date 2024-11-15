@@ -36,8 +36,7 @@
     {
       title: '时间',
       key: 'time3',
-      valueType: 'date',
-      valueFormat: 'YYYY-MM-DD HH:mm'
+      valueType: 'date'
     },
     {
       title: '时间二',
@@ -63,6 +62,7 @@
   ]
 
   const request = async (query) => {
+    console.log('=>(test.vue:66) query', query)
     const res = await new Promise((resolve) =>
       setTimeout(() => {
         resolve(

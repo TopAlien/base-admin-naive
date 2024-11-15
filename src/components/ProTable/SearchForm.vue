@@ -98,7 +98,7 @@
         <n-date-picker
           v-if="isDateInput(item.pickerSearchType || item.valueType)"
           class="min-w240px!"
-          v-model:value="searchForm[item.searchKey || item.key]"
+          v-model:formatted-value="searchForm[item.searchKey || item.key]"
           :type="item.pickerSearchType || item.valueType"
           :clearable="isEmpty(item.initialValue)"
           v-bind="item.fieldProps"
