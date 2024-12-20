@@ -1,13 +1,9 @@
 <script setup>
   import { nextTick, ref } from 'vue'
   import { saveAs } from 'file-saver'
-  import PreviewVideo from './preview-video.vue'
-  import { fileNamePass, limitFileSize, uploadRequest } from '@/components/ProUpload/upload.js'
-  import { invokeModal } from '@/utils/modal'
-
-  const isVideo = (url) => {
-    return /(\.avi|\.mov|\.mp4|\.m4v|\.flv)/i.test(url)
-  }
+  import { fileNamePass, limitFileSize, uploadRequest } from '@/components/pro-upload/upload.js'
+  import { previewMedia } from '@/utils/modal.js'
+  import { isVideo } from '@/utils/index.js'
 
   const fileList = defineModel('list', {
     type: Array,
@@ -31,7 +27,7 @@
       return false
     }
 
-    if (limitFileSize(file.file, 2)) {
+    if (limitFileSize(file.file, 20)) {
       return false
     }
   }
@@ -59,12 +55,7 @@
   const preview = (file) => {
     previewUrl.value = file.url
     if (isVideo(file.url)) {
-      invokeModal({
-        title: '视频预览',
-        render: PreviewVideo,
-        cover: file.thumbnailUrl,
-        src: file.url
-      })
+      previewMedia({ src: file.url, cover: file.thumbnailUrl, type: 'video' })
     } else {
       nextTick(() => {
         imgRef.value.click()
@@ -74,21 +65,24 @@
 </script>
 
 <template>
-  <n-upload
-    accept=".png,.jpg,.jpeg,.webp,.gif"
-    list-type="image-card"
-    show-download-button
-    :max="1"
-    :multiple="$attrs.max > 1"
-    v-bind="$attrs"
-    v-model:file-list="fileList"
-    :custom-request="customRequest"
-    @before-upload="beforeUpload"
-    @download="beforeDownload"
-    @preview="preview"
-  >
-    点击上传
-  </n-upload>
+  <div>
+    <n-upload
+      accept=".png,.jpg,.jpeg,.webp,.gif"
+      list-type="image-card"
+      show-download-button
+      :max="1"
+      :multiple="$attrs.max > 1"
+      v-bind="$attrs"
+      v-model:file-list="fileList"
+      :custom-request="customRequest"
+      @before-upload="beforeUpload"
+      @download="beforeDownload"
+      @preview="preview"
+    >
+      点击上传
+    </n-upload>
+    <span class="Upload_tip">{{ $attrs.tip }}</span>
+  </div>
 
   <n-image
     ref="imgRef"
@@ -96,3 +90,10 @@
     style="width: 0; height: 0"
   />
 </template>
+
+<style scoped>
+  .Upload_tip {
+    color: #777777;
+    font-size: 13px;
+  }
+</style>

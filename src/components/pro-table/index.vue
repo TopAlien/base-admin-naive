@@ -1,11 +1,11 @@
 <script setup>
   import { ref, reactive, computed, useAttrs, h } from 'vue'
   import SearchForm from './SearchForm.vue'
-  import { setTableColumn, setSearchColumn } from './util'
+  import { setTableColumn, setSearchColumn } from './util.js'
 
   const attrs = useAttrs()
   const slots = defineSlots()
-  const emit = defineEmits(['search'])
+  const emit = defineEmits(['search', 'update:checked-rows'])
 
   const props = defineProps({
     title: {
@@ -20,6 +20,11 @@
       type: Function,
       default: () => ({ list: [], total: 0 })
     }
+  })
+
+  const checkedRowKeys = defineModel('checkedRowKeys', {
+    type: Array,
+    default: () => []
   })
 
   const tableColumns = computed(() => {
@@ -85,6 +90,11 @@
     loadData()
   }
 
+  const handleCheck = (rowKeys, rows) => {
+    checkedRowKeys.value = rowKeys
+    emit('update:checked-rows', rows)
+  }
+
   defineExpose({ getParams, reload: loadData })
 </script>
 
@@ -120,6 +130,7 @@
     <n-data-table
       class="flex-1 h-full"
       :row-key="(row) => row.id"
+      v-bind="$attrs"
       flex-height
       striped
       remote
@@ -127,7 +138,8 @@
       :loading="tableMuster.loading"
       :data="tableMuster.list"
       :pagination="{ ...tableMuster.pagination, itemCount: tableMuster.total }"
-      v-bind="$attrs"
+      :checked-row-keys="checkedRowKeys"
+      @update:checked-row-keys="handleCheck"
     />
   </div>
 </template>

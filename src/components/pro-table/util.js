@@ -1,25 +1,20 @@
-import dayjs from 'dayjs'
-import { isEmpty, enumToOption } from '@/utils'
-import { renderImage, renderTag } from '@/utils/render'
-
-const timeFormat = (time, format) => {
-  return dayjs(time).format(format || 'YYYY-MM-DD HH:mm:ss')
-}
+import { isEmpty, enumToOption, formatTime } from '@/utils'
+import { renderMedia, renderTag } from '@/utils/render'
 
 export const setTableColumn = (columns) => {
   const result = []
   columns.forEach((column) => {
     if (!column.hideInTable) {
       if (!column.render && column.valueType === 'date') {
-        column.render = (row) => timeFormat(row[column.key], column.valueFormat)
+        column.render = (row) => formatTime(row[column.key], column.valueFormat)
       }
 
       // 时间区间选择器
       if (!column.render && column.valueType && column.valueType?.indexOf('range') !== -1) {
         column.render = (row) =>
-          timeFormat(row[column.key[0]], column.valueFormat) +
+          formatTime(row[column.key[0]], column.valueFormat) +
           ' - ' +
-          timeFormat(row[column.key[1]], column.valueFormat)
+          formatTime(row[column.key[1]], column.valueFormat)
       }
 
       if (!column.render && column.valueType === 'select' && column.valueEnum) {
@@ -34,8 +29,8 @@ export const setTableColumn = (columns) => {
         column.render = (row) => (row[column.key] ? '是' : '否')
       }
 
-      if (!column.render && column.valueType === 'image') {
-        column.render = (row) => renderImage(row[column.key])
+      if (!column.render && column.valueType === 'media') {
+        column.render = (row) => renderMedia(row[column.key])
       }
 
       // 👇位置谨慎修改，渲染逻辑👆新增
@@ -46,6 +41,8 @@ export const setTableColumn = (columns) => {
       if (column.title === '操作' && !column.fixed) {
         column.fixed = 'right'
       }
+
+      column.ellipsis = { tooltip: true }
 
       column.align = 'center'
 

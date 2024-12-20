@@ -8,37 +8,12 @@ export const routes = [
     path: '/',
     name: 'home',
     component: Layout,
-    redirect: '/test/test1-1',
+    redirect: '/list',
     children: [
       {
-        path: '/test',
-        name: 'Test',
-        meta: {
-          title: '测试页面'
-        },
-        children: [
-          {
-            path: '/test/test1-1',
-            name: 'Test1-1',
-            component: () => import('@/views/test1.vue'),
-            meta: {
-              title: '测试页面1-1'
-            }
-          },
-          {
-            path: '/test/test1-2',
-            name: 'Test1-2',
-            component: () => import('@/views/test2.vue'),
-            meta: {
-              title: '测试页面1-2'
-            }
-          }
-        ]
-      },
-      {
-        path: '/test1',
-        name: 'Test1',
-        component: () => import('@/views/test.vue'),
+        path: '/list',
+        name: 'LIST',
+        component: () => import('@/views/list.vue'),
         meta: {
           title: '测试页面1'
         }

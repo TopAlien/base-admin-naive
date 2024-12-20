@@ -1,7 +1,4 @@
 <script setup>
-  import { renderPopconfirm } from '@/utils/render'
-  import { exportZip } from '@/utils/index.js'
-
   const columns = [
     {
       type: 'selection'
@@ -50,14 +47,7 @@
       valueType: 'daterange'
     },
     {
-      title: '操作',
-      render: () => {
-        return renderPopconfirm({
-          positiveClick: () => {
-            console.log('asdasd')
-          }
-        })
-      }
+      title: '操作'
     }
   ]
 

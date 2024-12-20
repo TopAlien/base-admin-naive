@@ -2,8 +2,10 @@
   import { ref } from 'vue'
   import { useRouter } from 'vue-router'
   import { routes } from '@/router'
-  import { generatorMenu } from '@/utils/router-gen'
-  import { listenerRouteChange } from '@/utils/router-listener'
+  import { generatorMenu } from '@/utils/router-gen.js'
+  import { renderIcon } from '@/utils/render.js'
+  import { getUserInfo } from '@/utils/storage.js'
+  import { listenerRouteChange } from '@/utils/router-listener.js'
 
   const router = useRouter()
 
@@ -19,12 +21,41 @@
   }
 
   listenerRouteChange((to) => {
-    selectedKey.value = to.path
+    selectedKey.value = to.meta.light || to.path
   })
+
+  const dropdownOptions = ref([
+    {
+      label: '登出登录',
+      key: 'logout',
+      icon: renderIcon('LogOutOutline')
+    }
+  ])
+  const userInfo = ref(getUserInfo())
+
+  const selectItem = (key) => {
+    if (key === 'logout') {
+      localStorage.clear()
+      router.replace('/login')
+    }
+  }
 </script>
 
 <template>
-  <n-layout-header class="layout_header">header</n-layout-header>
+  <n-layout-header class="layout_header">
+    <div class="flex flex-justify-between flex-items-center header_box">
+      <h3 class="ma0">哇咔咔</h3>
+      <n-dropdown
+        :options="dropdownOptions"
+        @select="selectItem"
+        placement="top-end"
+      >
+        <n-button quaternary>
+          <h4>{{ userInfo.username }}</h4>
+        </n-button>
+      </n-dropdown>
+    </div>
+  </n-layout-header>
   <n-layout has-sider>
     <n-layout-sider
       class="side_content"
@@ -56,7 +87,7 @@
           <router-view />
         </div>
       </n-layout-content>
-      <n-layout-footer class="layout_footer">Base Admin ©2024 Created by NuoMi</n-layout-footer>
+      <n-layout-footer class="layout_footer">©2024 Created by 哇咔咔</n-layout-footer>
     </n-layout>
   </n-layout>
 </template>
@@ -67,6 +98,10 @@
     line-height: @header-height;
     text-align: center;
     border-bottom: 1px solid rgb(229, 230, 235);
+  }
+
+  .header_box {
+    padding: 0 16px 0;
   }
 
   .side_content {

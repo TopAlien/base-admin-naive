@@ -1,4 +1,5 @@
 import { h } from 'vue'
+import PreviewMedia from '@/components/preview-media/index.vue'
 
 /**
  *
@@ -8,13 +9,24 @@ import { h } from 'vue'
  * @param config 其他配置
  * @returns {Promise<unknown>}
  */
-export const waitConfirmModal = ({ title = '警告', content = '你确定？', type = 'warning', ...config } = {}) => {
+export const waitConfirmModal = ({
+  title = '删除确认',
+  content = '是否确定删除？',
+  type = 'warning',
+  ...config
+} = {}) => {
   return new Promise((resolve, reject) => {
     const ins = $dialog[type]({
       title,
       content,
       positiveText: '确定',
       negativeText: '取消',
+      titleStyle: {
+        justifyContent: 'center'
+      },
+      style: {
+        textAlign: 'center'
+      },
       ...config,
       onPositiveClick: () => {
         ins.loading = true
@@ -44,7 +56,7 @@ export const invokeModal = ({
   style = { width: '500px' },
   config,
   ...props
-} = {}) => {
+}) => {
   return new Promise((resolve, reject) => {
     const modal = $modal.create({
       title,
@@ -64,5 +76,18 @@ export const invokeModal = ({
           }
         })
     })
+  })
+}
+
+export const previewMedia = async ({ src, cover, type = 'image' }) => {
+  await invokeModal({
+    title: type === 'image' ? '图片预览' : '视频预览',
+    render: PreviewMedia,
+    type,
+    src,
+    cover,
+    style: {
+      width: '640px'
+    }
   })
 }

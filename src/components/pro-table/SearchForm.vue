@@ -1,7 +1,8 @@
 <script setup>
   import { computed, nextTick, ref } from 'vue'
-  import { renderIcon } from '@/utils/render'
-  import { isEmpty, isDateInput, omitEmpty } from '@/utils'
+  import ApiSelect from '@/components/pro-select/api-select.vue'
+  import { renderIcon } from '@/utils/render.js'
+  import { isEmpty, isDateInput, omitEmpty } from '@/utils/index.js'
   import { cloneDeep } from 'lodash-es'
 
   let _initFormData = {}
@@ -74,7 +75,7 @@
         :label="item.title + ':'"
       >
         <n-input
-          v-if="(!item.valueType || item.valueType === 'text') && !item.chooseSelect"
+          v-if="(!item.valueType || item.valueType === 'text') && !item.apiSelect"
           class="min-w240px!"
           v-model:value="searchForm[item.searchKey || item.key]"
           :placeholder="'请输入' + item.title"
@@ -84,13 +85,23 @@
         />
 
         <n-select
-          v-if="!item.chooseSelect && item.valueType === 'select'"
+          v-if="!item.apiSelect && item.valueType === 'select'"
           class="min-w240px!"
           v-model:value="searchForm[item.searchKey || item.key]"
           :options="item.options"
           :placeholder="'请选择' + item.title"
           :clearable="isEmpty(item.initialValue)"
           filterable
+          v-bind="item.fieldProps"
+          @update-value="search"
+        />
+
+        <api-select
+          v-if="item.apiSelect"
+          :api="item.apiSelect"
+          class="min-w240px!"
+          v-model:value="searchForm[item.searchKey || item.key]"
+          :clearable="isEmpty(item.initialValue)"
           v-bind="item.fieldProps"
           @update-value="search"
         />
