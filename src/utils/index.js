@@ -66,3 +66,25 @@ export const isVideo = (url) => {
 export const getVideoCover = (url) => {
   return url + '?x-oss-process=video/snapshot,t_0,f_jpg,w_0,h_0,m_fast,ar_auto'
 }
+
+export const previewImage = (list, previewIndex) => {
+  if (!list.length) return
+  const e = document.createEvent('MouseEvents')
+  e.initEvent('click', true, true)
+  const imgList = list.map((src) => {
+    return h(NImage, { width: 100, src })
+  })
+  let existDiv = document.querySelector('#preview-image')
+  if (!existDiv) {
+    const div = document.createElement('div')
+    div.id = 'preview-image'
+    document.body.appendChild(div)
+    existDiv = div
+  }
+  if (imgList.length > 1) {
+    render(h(NImageGroup, {}, [h(NSpace, {}, imgList)]), existDiv)
+  } else {
+    render(imgList[0], existDiv)
+  }
+  existDiv?.querySelectorAll('.n-image img')[previewIndex]?.dispatchEvent(e)
+}
