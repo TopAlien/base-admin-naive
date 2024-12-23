@@ -44,10 +44,7 @@ importers:
         version: 0.12.0
       '@vitejs/plugin-vue':
         specifier: ^5.2.1
-        version: 5.2.1(vite@6.0.4(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2))(vue@3.5.13)
-      esbuild:
-        specifier: '=0.24.0'
-        version: 0.24.0
+        version: 5.2.1(vite@6.0.5(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2))(vue@3.5.13)
       less:
         specifier: ^4.2.1
         version: 4.2.1
@@ -59,13 +56,13 @@ importers:
         version: 3.4.2
       unocss:
         specifier: ^0.65.2
-        version: 0.65.2(postcss@8.4.49)(rollup@4.28.1)(vite@6.0.4(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2))(vue@3.5.13)
+        version: 0.65.2(postcss@8.4.49)(rollup@4.28.1)(vite@6.0.5(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2))(vue@3.5.13)
       unplugin-vue-components:
         specifier: ^0.28.0
         version: 0.28.0(@babel/parser@7.26.3)(rollup@4.28.1)(vue@3.5.13)
       vite:
-        specifier: ^6.0.4
-        version: 6.0.4(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2)
+        specifier: ^6.0.5
+        version: 6.0.5(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2)
 
 packages:
 
@@ -1521,8 +1518,8 @@ packages:
     peerDependencies:
       vue: ^3.0.11
 
-  vite@6.0.4:
-    resolution: {integrity: sha512-zwlH6ar+6o6b4Wp+ydhtIKLrGM/LoqZzcdVmkGAFun0KHTzIzjh+h0kungEx7KJg/PYnC80I4TII9WkjciSR6Q==}
+  vite@6.0.5:
+    resolution: {integrity: sha512-akD5IAH/ID5imgue2DYhzsEwCi0/4VKY31uhMLEYJwPP4TiUp8pL5PIK+Wo7H8qT8JY9i+pVfPydcFPYD1EL7g==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
     peerDependencies:
@@ -1971,13 +1968,13 @@ snapshots:
 
   '@types/lodash@4.17.13': {}
 
-  '@unocss/astro@0.65.2(rollup@4.28.1)(vite@6.0.4(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2))(vue@3.5.13)':
+  '@unocss/astro@0.65.2(rollup@4.28.1)(vite@6.0.5(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2))(vue@3.5.13)':
     dependencies:
       '@unocss/core': 0.65.2
       '@unocss/reset': 0.65.2
-      '@unocss/vite': 0.65.2(rollup@4.28.1)(vite@6.0.4(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2))(vue@3.5.13)
+      '@unocss/vite': 0.65.2(rollup@4.28.1)(vite@6.0.5(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2))(vue@3.5.13)
     optionalDependencies:
-      vite: 6.0.4(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2)
+      vite: 6.0.5(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2)
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -2106,7 +2103,7 @@ snapshots:
     dependencies:
       '@unocss/core': 0.65.2
 
-  '@unocss/vite@0.65.2(rollup@4.28.1)(vite@6.0.4(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2))(vue@3.5.13)':
+  '@unocss/vite@0.65.2(rollup@4.28.1)(vite@6.0.5(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2))(vue@3.5.13)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@rollup/pluginutils': 5.1.4(rollup@4.28.1)
@@ -2116,7 +2113,7 @@ snapshots:
       chokidar: 3.6.0
       magic-string: 0.30.17
       tinyglobby: 0.2.10
-      vite: 6.0.4(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2)
+      vite: 6.0.5(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2)
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -2124,9 +2121,9 @@ snapshots:
 
   '@vicons/ionicons5@0.12.0': {}
 
-  '@vitejs/plugin-vue@5.2.1(vite@6.0.4(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2))(vue@3.5.13)':
+  '@vitejs/plugin-vue@5.2.1(vite@6.0.5(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2))(vue@3.5.13)':
     dependencies:
-      vite: 6.0.4(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2)
+      vite: 6.0.5(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2)
       vue: 3.5.13
 
   '@vue/compiler-core@3.5.13':
@@ -3127,9 +3124,9 @@ snapshots:
   universalify@0.2.0:
     optional: true
 
-  unocss@0.65.2(postcss@8.4.49)(rollup@4.28.1)(vite@6.0.4(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2))(vue@3.5.13):
+  unocss@0.65.2(postcss@8.4.49)(rollup@4.28.1)(vite@6.0.5(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2))(vue@3.5.13):
     dependencies:
-      '@unocss/astro': 0.65.2(rollup@4.28.1)(vite@6.0.4(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2))(vue@3.5.13)
+      '@unocss/astro': 0.65.2(rollup@4.28.1)(vite@6.0.5(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2))(vue@3.5.13)
       '@unocss/cli': 0.65.2(rollup@4.28.1)
       '@unocss/core': 0.65.2
       '@unocss/postcss': 0.65.2(postcss@8.4.49)
@@ -3145,9 +3142,9 @@ snapshots:
       '@unocss/transformer-compile-class': 0.65.2
       '@unocss/transformer-directives': 0.65.2
       '@unocss/transformer-variant-group': 0.65.2
-      '@unocss/vite': 0.65.2(rollup@4.28.1)(vite@6.0.4(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2))(vue@3.5.13)
+      '@unocss/vite': 0.65.2(rollup@4.28.1)(vite@6.0.5(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2))(vue@3.5.13)
     optionalDependencies:
-      vite: 6.0.4(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2)
+      vite: 6.0.5(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2)
     transitivePeerDependencies:
       - postcss
       - rollup
@@ -3191,7 +3188,7 @@ snapshots:
       evtd: 0.2.4
       vue: 3.5.13
 
-  vite@6.0.4(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2):
+  vite@6.0.5(jiti@2.4.2)(less@4.2.1)(tsx@4.19.2):
     dependencies:
       esbuild: 0.24.0
       postcss: 8.4.49

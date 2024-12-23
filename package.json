@@ -24,12 +24,11 @@
     "@types/file-saver": "^2.0.7",
     "@vicons/ionicons5": "^0.12.0",
     "@vitejs/plugin-vue": "^5.2.1",
-    "esbuild": "=0.24.0",
     "less": "^4.2.1",
     "naive-ui": "^2.40.4",
     "prettier": "^3.3.3",
     "unocss": "^0.65.2",
     "unplugin-vue-components": "^0.28.0",
-    "vite": "^6.0.4"
+    "vite": "^6.0.5"
   }
 }
