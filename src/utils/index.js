@@ -45,8 +45,8 @@ export const enumToOption = (valueEnum) => {
   return Object.keys(valueEnum).map((key) => {
     /**
      * 兼容
-     * { 1: { text: '是', status: 'Success' } }
-     * { 1: '是'   }
+     * { 1: { text: '是', status: 'Success' }, all: { text: '全部', status: 'Error' } }
+     * { 1: '是', all: '全部' }
      */
     return {
       label: valueEnum[key]?.text || valueEnum[key] || '无text',

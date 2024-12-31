@@ -31,8 +31,8 @@
       icon: renderIcon('LogOutOutline')
     }
   ])
-  const userInfo = ref(getUserInfo())
 
+  const userInfo = ref(getUserInfo())
   const selectItem = (key) => {
     if (key === 'logout') {
       localStorage.clear()
