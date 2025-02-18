@@ -1,6 +1,6 @@
 <script setup>
   import { ref, reactive, computed, useAttrs, h } from 'vue'
-  import SearchForm from './SearchForm.vue'
+  import ProSearch from '@/components/pro-search/index.vue'
   import { setTableColumn, setSearchColumn } from './util.js'
 
   const attrs = useAttrs()
@@ -105,7 +105,7 @@
       v-if="searchColumns.length || slots.extraL || slots.extraR"
     >
       <div class="search_box_title">{{ title }}</div>
-      <SearchForm
+      <ProSearch
         :inline-btn="inlineBtn"
         ref="searchFormRef"
         :searchColumns="searchColumns"

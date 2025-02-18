@@ -7,6 +7,8 @@
       title: '状态',
       key: 'status',
       valueType: 'select',
+      // 暂不支持
+      is: 'n-select',
       valueEnum: {
         1: { text: '状态1', type: 'default' },
         2: { text: '状态2', type: 'success' },
@@ -44,7 +46,8 @@
       title: '时间区间',
       key: ['time', 'time2'],
       searchKey: 'timeArr',
-      valueType: 'daterange'
+      valueType: 'daterange',
+      is: 'n-date-picker'
     },
     {
       title: '操作'
