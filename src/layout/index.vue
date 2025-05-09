@@ -51,7 +51,7 @@
         placement="top-end"
       >
         <n-button quaternary>
-          <h4>{{ userInfo.username }}</h4>
+          <h4>{{ userInfo.username || '默认昵称' }}</h4>
         </n-button>
       </n-dropdown>
     </div>
