@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
 
+// null undefined ''
 export const isEmpty = (value) => {
   return (value ?? '') === ''
 }
@@ -87,4 +88,12 @@ export const previewImage = (list, previewIndex) => {
     render(imgList[0], existDiv)
   }
   existDiv?.querySelectorAll('.n-image img')[previewIndex]?.dispatchEvent(e)
+}
+
+export const padZero = (val) => {
+  return String(val).padStart(val, '0')
+}
+
+export const fixedNumber = (val, len = 2) => {
+  return val ? Number((val).toFixed(len)) : 0
 }
