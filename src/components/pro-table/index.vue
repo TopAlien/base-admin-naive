@@ -102,29 +102,24 @@
   <div class="pro_box">
     <div
       class="search_box"
-      v-if="searchColumns.length || slots.extraL || slots.extraR"
+      v-if="searchColumns.length || slots.extra"
     >
       <div class="search_box_title">{{ title }}</div>
       <ProSearch
-        :inline-btn="inlineBtn"
         ref="searchFormRef"
+        :inline-btn="inlineBtn"
         :searchColumns="searchColumns"
         @search="search"
       />
       <n-divider
         class="mb16px! mt0!"
-        v-if="searchColumns.length && (slots.extraL || slots.extraR)"
+        v-if="searchColumns.length && slots.extra"
       />
       <div
-        v-if="slots.extraL || slots.extraR"
-        class="flex justify-between mb16px"
+        v-if="slots.extra"
+        class="flex items-center justify-between mb16px"
       >
-        <n-space>
-          <slot name="extraL"><span></span></slot>
-        </n-space>
-        <n-space>
-          <slot name="extraR"><span></span></slot>
-        </n-space>
+        <slot name="extra" />
       </div>
     </div>
     <n-data-table

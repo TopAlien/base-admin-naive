@@ -63,7 +63,7 @@
       show-trigger
       collapse-mode="width"
       :collapsed-width="64"
-      :width="220"
+      :width="200"
       :native-scrollbar="false"
     >
       <n-menu
@@ -81,10 +81,17 @@
       <n-layout-content
         class="layout_content"
         :native-scrollbar="false"
-        content-style="height: 100%; padding: 16px 16px 0;"
+        content-style="height: 100%; padding: 12px 12px 0;"
       >
         <div class="router_view">
-          <router-view />
+          <router-view v-slot="{ Component, route }">
+            <keep-alive>
+              <component
+                :is="Component"
+                :key="route.fullPath"
+              />
+            </keep-alive>
+          </router-view>
         </div>
       </n-layout-content>
       <n-layout-footer class="layout_footer">©2024 Created by 哇咔咔</n-layout-footer>

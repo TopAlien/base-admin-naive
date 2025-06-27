@@ -13,9 +13,34 @@ export const routes = [
       {
         path: '/list',
         name: 'LIST',
-        component: () => import('@/views/list.vue'),
         meta: {
           title: '测试页面1'
+        },
+        children: [
+          {
+            path: '/list3',
+            name: 'LIST3',
+            component: () => import('@/views/list.vue'),
+            meta: {
+              title: '测试页面-child'
+            }
+          },
+          {
+            path: '/list32',
+            name: 'LIST32',
+            component: () => import('@/views/list.vue'),
+            meta: {
+              title: '测试页面-child2'
+            }
+          }
+        ]
+      },
+      {
+        path: '/list2',
+        name: 'LIST2',
+        component: () => import('@/views/list.vue'),
+        meta: {
+          title: '测试页面2'
         }
       }
     ]

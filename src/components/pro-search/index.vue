@@ -1,11 +1,18 @@
 <script setup>
   import { computed, nextTick, ref } from 'vue'
+  import { NInput, NSelect } from 'naive-ui'
   import ApiSelect from '@/components/pro-select/api-select.vue'
   import { renderIcon } from '@/utils/render.js'
   import { isEmpty, isDateInput, omitEmpty } from '@/utils/index.js'
   import { cloneDeep } from 'lodash-es'
 
   let _initFormData = {}
+
+  const RenderMap = {
+    input: NInput,
+    select: NSelect,
+    'api-select': ApiSelect
+  }
 
   const props = defineProps({
     inlineBtn: {
@@ -74,38 +81,6 @@
         :key="item.key"
         :label="item.title + ':'"
       >
-        <n-input
-          v-if="(!item.valueType || item.valueType === 'text') && !item.apiSelect"
-          class="min-w240px!"
-          v-model:value="searchForm[item.searchKey || item.key]"
-          :placeholder="'请输入' + item.title"
-          :clearable="isEmpty(item.initialValue)"
-          maxlength="50"
-          v-bind="item.fieldProps"
-        />
-
-        <n-select
-          v-if="!item.apiSelect && item.valueType === 'select'"
-          class="min-w240px!"
-          v-model:value="searchForm[item.searchKey || item.key]"
-          :options="item.options"
-          :placeholder="'请选择' + item.title"
-          :clearable="isEmpty(item.initialValue)"
-          filterable
-          v-bind="item.fieldProps"
-          @update-value="search"
-        />
-
-        <api-select
-          v-if="item.apiSelect"
-          :api="item.apiSelect"
-          class="min-w240px!"
-          v-model:value="searchForm[item.searchKey || item.key]"
-          :clearable="isEmpty(item.initialValue)"
-          v-bind="item.fieldProps"
-          @update-value="search"
-        />
-
         <n-date-picker
           v-if="isDateInput(item.pickerSearchType || item.valueType)"
           class="min-w240px!"
@@ -113,7 +88,21 @@
           :type="item.pickerSearchType || item.valueType"
           :clearable="isEmpty(item.initialValue)"
           v-bind="item.fieldProps"
-          @update-value="search"
+          @update:value="search"
+        />
+
+        <component
+          class="min-w240px!"
+          :is="RenderMap[item.valueType || 'input']"
+          v-model:value="searchForm[item.searchKey || item.key]"
+          :api="item.apiSelect"
+          :placeholder="'请选择' + item.title"
+          :clearable="isEmpty(item.initialValue)"
+          :options="item.options"
+          filterable
+          maxlength="50"
+          v-bind="item.fieldProps"
+          @update:value="!item.valueType || item.valueType === 'input' ? () => {} : search()"
         />
       </n-form-item>
     </n-form>
