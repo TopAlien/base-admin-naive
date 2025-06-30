@@ -30,6 +30,7 @@
   const inlineStyle = computed(() => {
     return props.inlineBtn || props.searchColumns.length < 3
   })
+  const isExpanded = true
 
   const searchForm = ref({})
   const initSearchForm = () => {
@@ -39,8 +40,7 @@
     })
 
     searchForm.value = cloneDeep(temp)
-    temp = null
-    _initFormData = cloneDeep(searchForm.value)
+    _initFormData = cloneDeep(temp)
   }
   initSearchForm()
 
@@ -69,7 +69,7 @@
   >
     <n-form
       ref="formRef"
-      class="flex-wrap flex-1"
+      class="flex-wrap flex-1 max-h-174px overflow-y-auto"
       inline
       label-width="auto"
       label-placement="left"
@@ -134,5 +134,12 @@
     margin-bottom: 24px;
     margin-left: 20px;
     padding-left: 20px;
+  }
+
+  .n-form.n-form--inline.max-h-174px.overflow-y-auto::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    background: transparent;
+    display: none;
   }
 </style>
