@@ -7,8 +7,6 @@
       title: '状态',
       key: 'status',
       valueType: 'select',
-      // 暂不支持
-      is: 'n-select',
       valueEnum: {
         1: { text: '状态1', type: 'default' },
         2: { text: '状态2', type: 'success' },
@@ -46,8 +44,7 @@
       title: '时间区间',
       key: ['time', 'time2'],
       searchKey: 'timeArr',
-      valueType: 'daterange',
-      is: 'n-date-picker'
+      valueType: 'daterange'
     },
     {
       title: '操作'
@@ -57,20 +54,18 @@
   const request = async (query) => {
     console.log('=>(test.vue:66) query', query)
     const res = await new Promise((resolve) =>
-      setTimeout(() => {
-        resolve(
-          Array.from({ length: 46 }).map((_, index) => ({
-            id: index,
-            key: index,
-            name: `Edward King ${index}`,
-            status: `${index}`,
-            status2: `${index}`,
-            time: Date.now(),
-            time3: Date.now(),
-            time2: Date.now()
-          }))
-        )
-      }, 1000)
+      resolve(
+        Array.from({ length: 46 }).map((_, index) => ({
+          id: index,
+          key: index,
+          name: `Edward King ${index}`,
+          status: `${index}`,
+          status2: `${index}`,
+          time: Date.now(),
+          time3: Date.now(),
+          time2: Date.now()
+        }))
+      )
     )
     return {
       list: res,
@@ -94,19 +89,20 @@
     :request="request"
     @update:checked-row-keys="checkRow"
   >
-    <template #extraL>
-      <n-button>哇咔咔</n-button>
-      <n-button type="primary">新增</n-button>
-    </template>
-
-    <template #extraR>
-      <n-button @click="reload">刷新</n-button>
-      <n-button
-        type="primary"
-        @click="exportZ"
-      >
-        导出
-      </n-button>
+    <template #extra>
+      <n-space>
+        <n-button>哇咔咔</n-button>
+        <n-button type="primary">新增</n-button>
+      </n-space>
+      <n-space>
+        <n-button @click="reload">刷新</n-button>
+        <n-button
+          type="primary"
+          @click="exportZ"
+        >
+          导出
+        </n-button>
+      </n-space>
     </template>
   </pro-table>
 </template>

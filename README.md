@@ -1,4 +1,4 @@
-# Vue 3 + Vite + naive-ui
+# node24 Vue 3 + Vite + naive-ui
 
 #### 基础布局展示
 

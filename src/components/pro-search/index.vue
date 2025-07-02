@@ -1,5 +1,6 @@
 <script setup>
   import { computed, nextTick, ref } from 'vue'
+  import { NInput, NSelect } from 'naive-ui'
   import ApiSelect from '@/components/pro-select/api-select.vue'
   import { renderIcon } from '@/utils/render.js'
   import { isEmpty, isDateInput, omitEmpty } from '@/utils/index.js'
@@ -7,11 +8,13 @@
 
   let _initFormData = {}
 
+  const RenderMap = {
+    input: NInput,
+    select: NSelect,
+    'api-select': ApiSelect
+  }
+
   const props = defineProps({
-    inlineBtn: {
-      type: Boolean,
-      default: false
-    },
     searchColumns: {
       type: Array,
       default: () => []
@@ -20,8 +23,8 @@
 
   const emit = defineEmits(['search'])
 
-  const inlineStyle = computed(() => {
-    return props.inlineBtn || props.searchColumns.length < 3
+  const inlineBtn = computed(() => {
+    return props.searchColumns.length < 3
   })
 
   const searchForm = ref({})
@@ -32,8 +35,7 @@
     })
 
     searchForm.value = cloneDeep(temp)
-    temp = null
-    _initFormData = cloneDeep(searchForm.value)
+    _initFormData = cloneDeep(temp)
   }
   initSearchForm()
 
@@ -62,7 +64,7 @@
   >
     <n-form
       ref="formRef"
-      class="flex-wrap flex-1"
+      class="flex-wrap flex-1 max-h-174px overflow-y-auto"
       inline
       label-width="auto"
       label-placement="left"
@@ -74,38 +76,6 @@
         :key="item.key"
         :label="item.title + ':'"
       >
-        <n-input
-          v-if="(!item.valueType || item.valueType === 'text') && !item.apiSelect"
-          class="min-w240px!"
-          v-model:value="searchForm[item.searchKey || item.key]"
-          :placeholder="'请输入' + item.title"
-          :clearable="isEmpty(item.initialValue)"
-          maxlength="50"
-          v-bind="item.fieldProps"
-        />
-
-        <n-select
-          v-if="!item.apiSelect && item.valueType === 'select'"
-          class="min-w240px!"
-          v-model:value="searchForm[item.searchKey || item.key]"
-          :options="item.options"
-          :placeholder="'请选择' + item.title"
-          :clearable="isEmpty(item.initialValue)"
-          filterable
-          v-bind="item.fieldProps"
-          @update-value="search"
-        />
-
-        <api-select
-          v-if="item.apiSelect"
-          :api="item.apiSelect"
-          class="min-w240px!"
-          v-model:value="searchForm[item.searchKey || item.key]"
-          :clearable="isEmpty(item.initialValue)"
-          v-bind="item.fieldProps"
-          @update-value="search"
-        />
-
         <n-date-picker
           v-if="isDateInput(item.pickerSearchType || item.valueType)"
           class="min-w240px!"
@@ -113,11 +83,25 @@
           :type="item.pickerSearchType || item.valueType"
           :clearable="isEmpty(item.initialValue)"
           v-bind="item.fieldProps"
-          @update-value="search"
+          @update:value="search"
+        />
+
+        <component
+          class="min-w240px!"
+          :is="RenderMap[item.valueType || 'input']"
+          v-model:value="searchForm[item.searchKey || item.key]"
+          :api="item.apiSelect"
+          :placeholder="'请选择' + item.title"
+          :clearable="isEmpty(item.initialValue)"
+          :options="item.options"
+          filterable
+          maxlength="50"
+          v-bind="item.fieldProps"
+          @update:value="!item.valueType || item.valueType === 'input' ? () => {} : search()"
         />
       </n-form-item>
     </n-form>
-    <div :class="!inlineStyle ? 'operate_box' : ''">
+    <div :class="!inlineBtn ? 'operate_box' : ''">
       <n-button
         type="primary"
         class="mb24px"
@@ -129,7 +113,7 @@
       <n-button
         :render-icon="renderIcon('RefreshOutline')"
         @click="reset"
-        :class="inlineStyle ? 'ml14px' : ''"
+        :class="inlineBtn ? 'ml14px' : ''"
       >
         重置
       </n-button>
@@ -145,5 +129,12 @@
     margin-bottom: 24px;
     margin-left: 20px;
     padding-left: 20px;
+  }
+
+  .n-form.n-form--inline.max-h-174px.overflow-y-auto::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    background: transparent;
+    display: none;
   }
 </style>
