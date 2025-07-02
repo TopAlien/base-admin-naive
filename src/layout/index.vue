@@ -10,7 +10,7 @@
   const router = useRouter()
 
   const selectedKey = ref('')
-  const menus = ref(generatorMenu(routes[0].children))
+  const menus = generatorMenu(routes[0].children)
 
   const clickMenuItem = (path) => {
     if (/http(s)?:/.test(path)) {
@@ -71,6 +71,7 @@
         accordion
         key-field="key"
         label-field="label"
+        :indent="18"
         :options="menus"
         :collapsed-width="64"
         :collapsed-icon-size="22"

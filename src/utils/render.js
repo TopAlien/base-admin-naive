@@ -48,8 +48,8 @@ export const renderTag = (obj = {}) => {
   return isEmpty(obj?.text) ? obj || '-' : obj?.text
 }
 
-export const renderIcon = (icon, props) => {
-  return () => (icon ? h(NIcon, props, { default: () => h(ICON_MAP[icon]) }) : '')
+export const renderIcon = (icon = 'BookOutline', props) => {
+  return () => h(NIcon, props, { default: () => h(ICON_MAP[icon]) })
 }
 
 export const renderTableIndex = (_, index) => {

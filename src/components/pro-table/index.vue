@@ -12,19 +12,10 @@
       type: String,
       default: '查询表格'
     },
-    inlineBtn: {
-      type: Boolean,
-      default: false
-    },
     request: {
       type: Function,
       default: () => ({ list: [], total: 0 })
     }
-  })
-
-  const checkedRowKeys = defineModel('checkedRowKeys', {
-    type: Array,
-    default: () => []
   })
 
   const tableColumns = computed(() => {
@@ -35,7 +26,7 @@
     return setSearchColumn(attrs.columns || [])
   })
 
-  const tableMuster = reactive({
+  const tableState = reactive({
     loading: false,
     list: [],
     total: 0,
@@ -45,15 +36,15 @@
       showSizePicker: true,
       pageSizes: [10, 20, 30, 50],
       prefix: () => {
-        return tableMuster.total ? h('span', `共 ${tableMuster.total} 条`) : ''
+        return tableState.total ? h('span', `共 ${tableState.total} 条`) : ''
       },
       onChange: (page) => {
-        tableMuster.pagination.page = page
+        tableState.pagination.page = page
         loadData()
       },
       onUpdatePageSize: (pageSize) => {
-        tableMuster.pagination.pageSize = pageSize
-        tableMuster.pagination.page = 1
+        tableState.pagination.pageSize = pageSize
+        tableState.pagination.page = 1
         loadData()
       }
     }
@@ -63,8 +54,8 @@
   const getParams = () => {
     return {
       ...searchFormRef.value?.getFieldsValue(),
-      currPage: tableMuster.pagination.page,
-      pageSize: tableMuster.pagination.pageSize
+      currPage: tableState.pagination.page,
+      pageSize: tableState.pagination.pageSize
     }
   }
 
@@ -73,26 +64,21 @@
       throw new Error('request must be a function')
     }
 
-    tableMuster.loading = true
+    tableState.loading = true
     try {
       const { list, total } = await props.request(getParams())
 
-      tableMuster.list = list
-      tableMuster.total = total
+      tableState.list = list
+      tableState.total = total
     } finally {
-      tableMuster.loading = false
+      tableState.loading = false
     }
   }
   loadData()
 
   const search = () => {
-    tableMuster.pagination.page = 1
+    tableState.pagination.page = 1
     loadData()
-  }
-
-  const handleCheck = (rowKeys, rows) => {
-    checkedRowKeys.value = rowKeys
-    emit('update:checked-rows', rows)
   }
 
   defineExpose({ getParams, reload: loadData })
@@ -107,7 +93,6 @@
       <div class="search_box_title">{{ title }}</div>
       <ProSearch
         ref="searchFormRef"
-        :inline-btn="inlineBtn"
         :searchColumns="searchColumns"
         @search="search"
       />
@@ -125,16 +110,14 @@
     <n-data-table
       class="flex-1 h-full"
       :row-key="(row) => row.id"
-      v-bind="$attrs"
       flex-height
       striped
       remote
       :columns="tableColumns"
-      :loading="tableMuster.loading"
-      :data="tableMuster.list"
-      :pagination="{ ...tableMuster.pagination, itemCount: tableMuster.total }"
-      :checked-row-keys="checkedRowKeys"
-      @update:checked-row-keys="handleCheck"
+      :loading="tableState.loading"
+      :data="tableState.list"
+      :pagination="{ ...tableState.pagination, itemCount: tableState.total }"
+      v-bind="$attrs"
     />
   </div>
 </template>

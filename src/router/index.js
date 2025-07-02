@@ -14,7 +14,7 @@ export const routes = [
         path: '/list',
         name: 'LIST',
         meta: {
-          title: '测试页面1'
+          title: '测试页面爱喝酒'
         },
         children: [
           {
@@ -22,7 +22,7 @@ export const routes = [
             name: 'LIST3',
             component: () => import('@/views/list.vue'),
             meta: {
-              title: '测试页面-child'
+              title: '测试页面挖矿'
             }
           },
           {
@@ -30,17 +30,17 @@ export const routes = [
             name: 'LIST32',
             component: () => import('@/views/list.vue'),
             meta: {
-              title: '测试页面-child2'
+              title: '测试页面挖矿'
             }
           }
         ]
       },
       {
-        path: '/list2',
-        name: 'LIST2',
-        component: () => import('@/views/list.vue'),
+        path: '/chart',
+        name: 'Chart',
+        component: () => import('@/views/chart.vue'),
         meta: {
-          title: '测试页面2'
+          title: 'Chart'
         }
       }
     ]

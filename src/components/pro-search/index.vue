@@ -15,10 +15,6 @@
   }
 
   const props = defineProps({
-    inlineBtn: {
-      type: Boolean,
-      default: false
-    },
     searchColumns: {
       type: Array,
       default: () => []
@@ -27,10 +23,9 @@
 
   const emit = defineEmits(['search'])
 
-  const inlineStyle = computed(() => {
-    return props.inlineBtn || props.searchColumns.length < 3
+  const inlineBtn = computed(() => {
+    return props.searchColumns.length < 3
   })
-  const isExpanded = true
 
   const searchForm = ref({})
   const initSearchForm = () => {
@@ -106,7 +101,7 @@
         />
       </n-form-item>
     </n-form>
-    <div :class="!inlineStyle ? 'operate_box' : ''">
+    <div :class="!inlineBtn ? 'operate_box' : ''">
       <n-button
         type="primary"
         class="mb24px"
@@ -118,7 +113,7 @@
       <n-button
         :render-icon="renderIcon('RefreshOutline')"
         @click="reset"
-        :class="inlineStyle ? 'ml14px' : ''"
+        :class="inlineBtn ? 'ml14px' : ''"
       >
         重置
       </n-button>
