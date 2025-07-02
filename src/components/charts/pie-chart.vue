@@ -1,6 +1,6 @@
 <script setup>
   import { ref, onMounted } from 'vue'
-  import VChart from '@/library/chart'
+  import VChart from '@visactor/vchart'
 
   const vChartDom = ref()
   const initChart = () => {
