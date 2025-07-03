@@ -105,18 +105,19 @@
       </div>
       <n-layout-content
         class="layout_content"
-        :native-scrollbar="false"
         content-style="height: 100%; padding: 12px;"
       >
         <div class="router_view">
-          <router-view v-slot="{ Component, route }">
-            <keep-alive>
-              <component
-                :is="Component"
-                :key="route.fullPath"
-              />
-            </keep-alive>
-          </router-view>
+          <n-scrollbar x-scrollable>
+            <router-view v-slot="{ Component, route }">
+              <keep-alive>
+                <component
+                  :is="Component"
+                  :key="route.fullPath"
+                />
+              </keep-alive>
+            </router-view>
+          </n-scrollbar>
         </div>
       </n-layout-content>
     </n-layout>
@@ -169,10 +170,16 @@
 
   .router_view {
     height: 100%;
-    padding: 16px;
     border: 1px solid rgb(229, 230, 235);
     background-color: white;
     box-sizing: border-box;
-    overflow-x: auto;
+  }
+
+  :deep(.n-scrollbar-content) {
+    height: inherit;
+    min-height: fit-content;
+    max-height: fit-content;
+    padding: 16px;
+    box-sizing: border-box;
   }
 </style>
