@@ -8,18 +8,10 @@
   import { listenerRouteChange } from '@/utils/router-listener.js'
 
   const router = useRouter()
+  const menus = generatorMenu(routes[0].children)
+  const userInfo = ref(getUserInfo())
 
   const selectedKey = ref('')
-  const menus = generatorMenu(routes[0].children)
-
-  const clickMenuItem = (path) => {
-    if (/http(s)?:/.test(path)) {
-      window.open(path)
-    } else {
-      router.push({ path })
-    }
-  }
-
   listenerRouteChange((to) => {
     selectedKey.value = to.meta.light || to.path
   })
@@ -32,7 +24,14 @@
     }
   ])
 
-  const userInfo = ref(getUserInfo())
+  const clickMenuItem = (path) => {
+    if (/http(s)?:/.test(path)) {
+      window.open(path)
+    } else {
+      router.push({ path })
+    }
+  }
+
   const selectItem = (key) => {
     if (key === 'logout') {
       localStorage.clear()
@@ -79,10 +78,35 @@
       />
     </n-layout-sider>
     <n-layout>
+      <div class="layout_history">
+        <n-tag closable>爱在西元前</n-tag>
+        <n-tag
+          closable
+          type="success"
+        >
+          爱在西元前
+        </n-tag>
+        <n-tag closable>爱在西元前</n-tag>
+        <n-tag closable>爱在西元前</n-tag>
+        <n-tag closable>爱在西元前</n-tag>
+        <n-tag closable>爱在西元前</n-tag>
+        <n-tag closable>爱在西元前</n-tag>
+        <n-tag closable>爱在西元前</n-tag>
+        <n-tag closable>爱在西元前</n-tag>
+        <n-tag closable>爱在西元前</n-tag>
+        <n-tag closable>爱在西元前</n-tag>
+        <n-tag closable>爱在西元前</n-tag>
+        <n-tag closable>爱在西元前</n-tag>
+        <n-tag closable>爱在西元前</n-tag>
+        <n-tag closable>爱在西元前</n-tag>
+        <n-tag closable>爱在西元前</n-tag>
+        <n-tag closable>爱在西元前</n-tag>
+        <n-tag closable>爱在西元前</n-tag>
+      </div>
       <n-layout-content
         class="layout_content"
         :native-scrollbar="false"
-        content-style="height: 100%; padding: 12px 12px 0;"
+        content-style="height: 100%; padding: 12px;"
       >
         <div class="router_view">
           <router-view v-slot="{ Component, route }">
@@ -95,7 +119,6 @@
           </router-view>
         </div>
       </n-layout-content>
-      <n-layout-footer class="layout_footer">©2024 Created by 哇咔咔</n-layout-footer>
     </n-layout>
   </n-layout>
 </template>
@@ -116,15 +139,31 @@
     height: calc(100vh - @header-height);
   }
 
-  .layout_content {
-    height: calc(100vh - @header-height - @footer-height);
-    background-color: @main-bg;
+  .layout_history {
+    height: @header-history-height;
+    display: flex;
+    align-items: center;
+    margin: 0 16px 0;
+    overflow-x: auto;
   }
 
-  .layout_footer {
-    height: @footer-height;
-    line-height: @footer-height;
-    text-align: center;
+  .layout_history :deep(.n-tag) {
+    margin-right: 8px;
+  }
+
+  .layout_history :deep(.n-tag:last-child) {
+    margin-right: 0;
+  }
+
+  .layout_history::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+    opacity: 0;
+    display: none;
+  }
+
+  .layout_content {
+    height: @layout-content-height;
     background-color: @main-bg;
   }
 

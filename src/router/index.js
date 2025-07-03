@@ -11,8 +11,9 @@ export const routes = [
     redirect: '/list',
     children: [
       {
-        path: '/list',
         name: 'LIST',
+        path: '/list',
+        redirect: '/list3',
         meta: {
           title: '测试页面爱喝酒'
         },

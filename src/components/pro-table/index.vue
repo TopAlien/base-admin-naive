@@ -97,12 +97,12 @@
         @search="search"
       />
       <n-divider
-        class="mb16px! mt0!"
         v-if="searchColumns.length && slots.extra"
+        class="mb10px! mt0!"
       />
       <div
         v-if="slots.extra"
-        class="flex items-center justify-between mb16px"
+        class="flex items-center justify-between mb10px"
       >
         <slot name="extra" />
       </div>
