@@ -4,6 +4,7 @@ import { setupComponents } from '@/components/index.js'
 import router, { setupRouter } from './router/index.js'
 
 import '@/styles/global.less'
+import '@/styles/transition.less'
 import 'virtual:uno.css'
 
 const bootstrap = async () => {

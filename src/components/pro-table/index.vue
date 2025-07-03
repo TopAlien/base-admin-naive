@@ -1,11 +1,10 @@
 <script setup>
-  import { ref, reactive, computed, useAttrs, h } from 'vue'
+  import { ref, reactive, computed, useAttrs, h, nextTick } from 'vue'
   import ProSearch from '@/components/pro-search/index.vue'
   import { setTableColumn, setSearchColumn } from './util.js'
 
   const attrs = useAttrs()
   const slots = defineSlots()
-  const emit = defineEmits(['search', 'update:checked-rows'])
 
   const props = defineProps({
     title: {
@@ -74,7 +73,7 @@
       tableState.loading = false
     }
   }
-  loadData()
+  nextTick(loadData)
 
   const search = () => {
     tableState.pagination.page = 1

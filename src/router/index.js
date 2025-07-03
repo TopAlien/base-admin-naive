@@ -29,7 +29,7 @@ export const routes = [
           {
             path: '/list32',
             name: 'LIST32',
-            component: () => import('@/views/list.vue'),
+            component: () => import('@/views/not-found.vue'),
             meta: {
               title: '测试页面挖矿'
             }
@@ -43,16 +43,17 @@ export const routes = [
         meta: {
           title: 'Chart'
         }
+      },
+      {
+        path: '/:pathMatch(.*)*',
+        name: 'NotFound',
+        component: () => import('@/views/not-found.vue'),
+        show: false,
+        meta: {
+          title: '404 Not Found'
+        }
       }
     ]
-  },
-  {
-    path: '/:pathMatch(.*)*',
-    name: 'NotFound',
-    component: () => import('@/views/not-found.vue'),
-    meta: {
-      title: '404 Not Found'
-    }
   }
 ]
 

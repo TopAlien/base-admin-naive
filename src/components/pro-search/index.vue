@@ -4,7 +4,6 @@
   import ApiSelect from '@/components/pro-select/api-select.vue'
   import { renderIcon } from '@/utils/render.js'
   import { isEmpty, isDateInput, omitEmpty } from '@/utils/index.js'
-  import { cloneDeep } from 'lodash-es'
 
   let _initFormData = {}
 
@@ -34,10 +33,10 @@
       temp[it.searchKey || it.key] = it.initialValue || null
     })
 
-    searchForm.value = cloneDeep(temp)
-    _initFormData = cloneDeep(temp)
+    searchForm.value = { ...temp }
+    _initFormData = { ...temp }
   }
-  initSearchForm()
+  nextTick(initSearchForm)
 
   const search = () => {
     nextTick(() => {
@@ -46,7 +45,7 @@
   }
 
   const reset = () => {
-    searchForm.value = cloneDeep(_initFormData)
+    searchForm.value = { ..._initFormData }
     search()
   }
 

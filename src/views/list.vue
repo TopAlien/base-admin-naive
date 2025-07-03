@@ -53,23 +53,21 @@
 
   const request = async (query) => {
     console.log('=>(test.vue:66) query', query)
-    const res = await new Promise((resolve) =>
-      resolve(
-        Array.from({ length: 46 }).map((_, index) => ({
-          id: index,
-          key: index,
-          name: `Edward King ${index}`,
-          status: `${index}`,
-          status2: `${index}`,
-          time: Date.now(),
-          time3: Date.now(),
-          time2: Date.now()
-        }))
-      )
-    )
+
+    const list = Array.from({ length: 20 }).map((_, index) => ({
+      id: index,
+      key: index,
+      name: `Edward King ${index}`,
+      status: `${index}`,
+      status2: `${index}`,
+      time: Date.now(),
+      time3: Date.now(),
+      time2: Date.now()
+    }))
+
     return {
-      list: res,
-      total: res.length
+      list: list,
+      total: 12002
     }
   }
 
