@@ -12,13 +12,14 @@
   "dependencies": {
     "@visactor/vchart": "^2.0.0",
     "dayjs": "^1.11.13",
-    "naive-ui": "^2.42.0",
     "file-saver": "^2.0.5",
     "idcard": "^4.2.0",
     "jszip": "^3.10.1",
     "lodash-es": "^4.17.21",
     "mitt": "^3.0.1",
+    "naive-ui": "^2.42.0",
     "nprogress": "^0.2.0",
+    "pinia": "^3.0.3",
     "vue": "^3.5.17",
     "vue-router": "^4.5.1"
   },

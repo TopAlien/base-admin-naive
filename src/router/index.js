@@ -31,7 +31,7 @@ export const routes = [
             name: 'LIST32',
             component: () => import('@/views/not-found.vue'),
             meta: {
-              title: '测试页面挖矿'
+              title: '测试矿'
             }
           }
         ]

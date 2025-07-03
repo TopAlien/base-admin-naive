@@ -1,30 +1,31 @@
-<script setup></script>
+<script setup>
+  import { useRouter, useRoute } from 'vue-router'
+  import { useTags } from '@/stores/useTags'
+
+  const tagsStore = useTags()
+  const router = useRouter()
+  const route = useRoute()
+
+  const handleClose = (item, index) => {
+    tagsStore.removeTag(index)
+
+    if (item.fullPath === route.fullPath) {
+      router.replace(tagsStore.list[index - 1]?.fullPath || '/')
+    }
+  }
+</script>
 
 <template>
   <div class="layout_history">
-    <n-tag closable>爱在西元前</n-tag>
     <n-tag
-      closable
-      type="success"
+      :closable="tagsStore.list.length > 1"
+      v-for="(item, index) in tagsStore.list"
+      :type="item.fullPath === route.fullPath ? 'success' : ''"
+      :key="item.fullPath"
+      @close="handleClose(item, index)"
     >
-      爱在西元前
+      {{ item.title }}
     </n-tag>
-    <n-tag closable>爱在西元前</n-tag>
-    <n-tag closable>爱在西元前</n-tag>
-    <n-tag closable>爱在西元前</n-tag>
-    <n-tag closable>爱在西元前</n-tag>
-    <n-tag closable>爱在西元前</n-tag>
-    <n-tag closable>爱在西元前</n-tag>
-    <n-tag closable>爱在西元前</n-tag>
-    <n-tag closable>爱在西元前</n-tag>
-    <n-tag closable>爱在西元前</n-tag>
-    <n-tag closable>爱在西元前</n-tag>
-    <n-tag closable>爱在西元前</n-tag>
-    <n-tag closable>爱在西元前</n-tag>
-    <n-tag closable>爱在西元前</n-tag>
-    <n-tag closable>爱在西元前</n-tag>
-    <n-tag closable>爱在西元前</n-tag>
-    <n-tag closable>爱在西元前</n-tag>
   </div>
 </template>
 

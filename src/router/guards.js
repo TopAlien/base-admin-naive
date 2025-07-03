@@ -1,7 +1,7 @@
+import { setRouteEmitter } from '@/utils/router-listener'
+import { useTags } from '@/stores/useTags'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-
-import { setRouteEmitter } from '@/utils/router-listener'
 
 NProgress.configure({
   easing: 'ease',
@@ -20,7 +20,10 @@ export const createRouterGuards = (router) => {
     next()
   })
 
-  router.afterEach(() => {
+  router.afterEach((to, form) => {
+    const tagsStore = useTags()
+    tagsStore.addTag({ title: to.meta.title, fullPath: to.fullPath })
+
     NProgress.done()
   })
 }
