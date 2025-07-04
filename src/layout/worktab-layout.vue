@@ -1,16 +1,16 @@
 <script setup>
   import { useRouter, useRoute } from 'vue-router'
-  import { useTags } from '@/stores/useTags'
+  import { useWorktabStore } from '@/store/modules/worktab'
 
-  const tagsStore = useTags()
+  const worktabStore = useWorktabStore()
   const router = useRouter()
   const route = useRoute()
 
-  const handleClose = (item, index) => {
-    tagsStore.removeTag(index)
+  const remove = (item, index) => {
+    worktabStore.removeTab(index)
 
     if (item.fullPath === route.fullPath) {
-      router.replace(tagsStore.list[index - 1]?.fullPath || '/')
+      router.replace(worktabStore.opened[index - 1]?.fullPath || '/')
     }
   }
 </script>
@@ -18,11 +18,11 @@
 <template>
   <div class="layout_history">
     <n-tag
-      :closable="tagsStore.list.length > 1"
-      v-for="(item, index) in tagsStore.list"
+      :closable="worktabStore.opened.length > 1"
+      v-for="(item, index) in worktabStore.opened"
       :type="item.fullPath === route.fullPath ? 'success' : ''"
       :key="item.fullPath"
-      @close="handleClose(item, index)"
+      @close="remove(item, index)"
     >
       {{ item.title }}
     </n-tag>

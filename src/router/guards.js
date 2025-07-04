@@ -1,5 +1,5 @@
 import { setRouteEmitter } from '@/utils/router-listener'
-import { useTags } from '@/stores/useTags'
+import { useWorktabStore } from '@/store/modules/worktab'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
@@ -21,8 +21,8 @@ export const createRouterGuards = (router) => {
   })
 
   router.afterEach((to, form) => {
-    const tagsStore = useTags()
-    tagsStore.addTag({ title: to.meta.title, fullPath: to.fullPath })
+    const worktabStore = useWorktabStore()
+    worktabStore.openTab({ title: to.meta.title, fullPath: to.fullPath })
 
     NProgress.done()
   })
