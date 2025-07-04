@@ -17,18 +17,18 @@ export function generatorMenu(routes) {
 
 export function flattenMenuItemsFn(routes) {
   const result = []
-
-  const flattenFn = (item) => {
+  const flattenFn = (item, parentTitle) => {
     if (typeof item.show === 'boolean' && !item.show) return
 
     if (item.children && item.children.length > 0) {
-      item.children.forEach(flattenFn)
+      item.children.forEach((it) => flattenFn(it, item.meta?.title))
       return
     }
 
-    result.push({ ...item, children: undefined })
+    result.push({ ...item, parentTitle, children: undefined })
   }
 
-  routes.forEach(flattenFn)
+  routes.forEach((it) => flattenFn(it))
+
   return result
 }

@@ -6,14 +6,25 @@
   import { flattenMenuItemsFn } from '@/utils/router-gen.js'
 
   const router = useRouter()
-  const flattenMenuItems = flattenMenuItemsFn(routes[0].children)
+  let flattenMenuItems = []
 
   const keyword = ref('')
   const resultList = computed(() => {
-    return flattenMenuItems.filter((item) => item.meta?.title?.toLowerCase().includes(keyword.value.toLowerCase()))
+    return flattenMenuItems.filter((item) => {
+      const searchKey = keyword.value.toLowerCase()
+      return item.meta?.title?.toLowerCase().includes(searchKey) || item.parentTitle?.toLowerCase().includes(searchKey)
+    })
   })
 
   const visibleModal = ref(false)
+
+  const search = () => {
+    if (!flattenMenuItems.length) {
+      flattenMenuItems = flattenMenuItemsFn(routes[0].children)
+    }
+    visibleModal.value = true
+  }
+
   const go = (item) => {
     visibleModal.value = false
     router.push(item.path)
@@ -26,7 +37,7 @@
       readonly
       round
       placeholder="菜单搜索"
-      @click="visibleModal = true"
+      @click="search"
     >
       <template #prefix>
         <n-icon :component="SearchOutline" />
@@ -43,7 +54,7 @@
         v-model:value="keyword"
         clearable
         round
-        placeholder="搜索"
+        placeholder="请输入菜单名称搜索"
         class="mb26px"
       >
         <template #prefix>
@@ -51,14 +62,17 @@
         </template>
       </n-input>
 
-      <div
-        v-for="item in resultList"
-        :key="item.path"
-        class="list_item"
-        @click="go(item)"
-      >
-        {{ item?.meta?.title || '未知' }}
-      </div>
+      <n-scrollbar style="max-height: 400px">
+        <div
+          v-for="item in resultList"
+          :key="item.path"
+          class="list_item"
+          @click="go(item)"
+        >
+          <span v-if="item.parentTitle">{{ item.parentTitle }}&nbsp;&gt;&nbsp;</span>
+          <span>{{ item?.meta?.title || '未知' }}</span>
+        </div>
+      </n-scrollbar>
     </n-card>
   </n-modal>
 </template>
