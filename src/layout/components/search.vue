@@ -10,7 +10,7 @@
 
   const keyword = ref('')
   const resultList = computed(() => {
-    return flattenMenuItems.filter((item) => item.label?.toLowerCase().includes(keyword.value.toLowerCase()))
+    return flattenMenuItems.filter((item) => item.meta?.title?.toLowerCase().includes(keyword.value.toLowerCase()))
   })
 
   const visibleModal = ref(false)
@@ -57,7 +57,7 @@
         class="list_item"
         @click="go(item)"
       >
-        {{ item.label }}
+        {{ item?.meta?.title || '未知' }}
       </div>
     </n-card>
   </n-modal>
