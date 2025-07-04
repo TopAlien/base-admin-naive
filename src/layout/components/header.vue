@@ -1,6 +1,7 @@
 <script setup>
-  import { getUserInfo } from '@/utils/storage.js'
+  import Search from './search.vue'
   import { useRouter } from 'vue-router'
+  import { getUserInfo } from '@/utils/storage.js'
   import { renderIcon } from '@/utils/render.js'
 
   const router = useRouter()
@@ -24,14 +25,21 @@
 
 <template>
   <n-layout-header class="layout_header">
+    <Search />
+
     <n-dropdown
       :options="dropdownOptions"
       @select="selectItem"
       placement="top-end"
     >
-      <n-button quaternary>
+      <div class="flex items-center cursor-pointer">
         <h4>{{ userInfo.username || '哈撒给-昵称' }}</h4>
-      </n-button>
+        <n-avatar
+          class="ml10px"
+          round
+          src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80"
+        />
+      </div>
     </n-dropdown>
   </n-layout-header>
 </template>
@@ -39,10 +47,10 @@
 <style lang="less" scoped>
   .layout_header {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     height: @header-height;
-    padding: 0 16px 0;
+    padding: 0 16px;
     border-bottom: 1px solid rgb(229, 230, 235);
   }
 </style>

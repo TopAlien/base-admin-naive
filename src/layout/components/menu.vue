@@ -1,13 +1,12 @@
 <script setup>
   import { ref } from 'vue'
-  import HeaderLogo from './header-logo.vue'
+  import HeaderLogo from './logo.vue'
   import { useRouter } from 'vue-router'
-  import { routes } from '@/router'
-  import { generatorMenu } from '@/utils/router-gen.js'
+  import { useMenuStore } from '@/store/modules/menu.js'
   import { listenerRouteChange } from '@/utils/router-listener.js'
 
   const router = useRouter()
-  const menus = generatorMenu(routes[0].children)
+  const menuStore = useMenuStore()
 
   const selectedKey = ref('')
   listenerRouteChange((to) => {
@@ -38,10 +37,10 @@
       <n-menu
         v-model:value="selectedKey"
         accordion
-        key-field="key"
+        key-field="path"
         label-field="label"
         :indent="18"
-        :options="menus"
+        :options="menuStore.menuList"
         :collapsed-width="64"
         :collapsed-icon-size="22"
         @update:value="clickMenuItem"
