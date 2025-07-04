@@ -6,9 +6,7 @@ export const useWorktabStore = defineStore('worktab', () => {
 
   const openTab = (tab) => {
     const index = opened.value.findIndex((item) => item.fullPath === tab.fullPath)
-    if (index !== -1) {
-      removeTab(index)
-    }
+    if (index !== -1) return
 
     opened.value.push(tab)
   }

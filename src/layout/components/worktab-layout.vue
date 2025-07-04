@@ -24,7 +24,12 @@
       :key="item.fullPath"
       @close="remove(item, index)"
     >
-      {{ item.title }}
+      <div
+        class="cursor-pointer"
+        @click="() => router.push(item.fullPath)"
+      >
+        {{ item.title }}
+      </div>
     </n-tag>
   </div>
 </template>

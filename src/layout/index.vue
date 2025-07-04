@@ -1,8 +1,8 @@
 <script setup>
-  import HeaderLayout from './header-layout.vue'
-  import WorktabLayout from './worktab-layout.vue'
-  import MenuLayout from './menu-layout.vue'
-  import ContentLayout from './content-layout.vue'
+  import HeaderLayout from './components/header-layout.vue'
+  import WorktabLayout from './components/worktab-layout.vue'
+  import MenuLayout from './components/menu-layout.vue'
+  import ContentLayout from './components/content-layout.vue'
 </script>
 
 <template>
