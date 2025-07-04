@@ -1,31 +1,12 @@
 <script setup>
   import { ref, computed } from 'vue'
   import { SearchOutline } from '@vicons/ionicons5'
+  import { routes } from '@/router'
   import { useRouter } from 'vue-router'
-  import { useMenuStore } from '@/store/modules/menu.js'
+  import { flattenMenuItemsFn } from '@/utils/router-gen.js'
 
   const router = useRouter()
-  const menuStore = useMenuStore()
-
-  const flattenMenuItemsFn = (items) => {
-    const result = []
-
-    const flattenFn = (item) => {
-      if (typeof item.show === 'boolean' && !item.show) return
-
-      if (item.children && item.children.length > 0) {
-        item.children.forEach(flattenFn)
-        return
-      }
-
-      result.push({ ...item, children: undefined })
-    }
-
-    items.forEach(flattenFn)
-    return result
-  }
-
-  const flattenMenuItems = flattenMenuItemsFn(menuStore.menuList)
+  const flattenMenuItems = flattenMenuItemsFn(routes[0].children)
 
   const keyword = ref('')
   const resultList = computed(() => {

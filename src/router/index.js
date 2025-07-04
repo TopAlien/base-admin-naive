@@ -23,7 +23,8 @@ export const routes = [
             name: 'LIST3',
             component: () => import('@/views/list.vue'),
             meta: {
-              title: '测试页面挖矿'
+              title: '测试页面挖矿',
+              icon: 'CubeOutline'
             }
           },
           {
