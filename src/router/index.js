@@ -34,6 +34,14 @@ export const routes = [
             meta: {
               title: '测试矿'
             }
+          },
+            {
+            path: '/big',
+            name: 'Big',
+            component: () => import('@/views/big.vue'),
+            meta: {
+              title: 'BigNumber.js'
+            }
           }
         ]
       },
